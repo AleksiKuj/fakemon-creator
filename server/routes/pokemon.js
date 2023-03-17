@@ -29,7 +29,10 @@ router.get("/", async (req, res) => {
   const startIndex = (page - 1) * limit
 
   try {
-    const pokemon = await Pokemon.find({}).skip(startIndex).limit(limit)
+    const pokemon = await Pokemon.find({})
+      .sort({ createdAt: -1 })
+      .skip(startIndex)
+      .limit(limit)
 
     //Count the number of Pokemon in database
     const totalPokemon = await Pokemon.countDocuments({})
@@ -50,10 +53,8 @@ router.get("/", async (req, res) => {
 //get one pokemon
 router.get("/:id", async (req, res) => {
   const { id } = req.params
-  console.log(id)
   try {
     const pokemon = await Pokemon.findById(id)
-
     res.status(200).json({ pokemon })
   } catch (error) {
     console.log(error)
@@ -63,8 +64,8 @@ router.get("/:id", async (req, res) => {
 
 //generate random pokemon
 router.post("/", async function (req, res) {
-  const type = req.body.type || "water"
-  const style = req.body.style || "3d"
+  const type = req.body.type || "Water"
+  const style = req.body.style || "3D"
   const gen = req.body.gen || "5"
 
   //random value between 20-100 for stats
@@ -118,10 +119,6 @@ router.post("/", async function (req, res) {
     })
     const imageUrl = imageResponse.data.data[0].url
 
-    console.log(name)
-    console.log(ability)
-    console.log(imageUrl)
-
     const pokemonStats = {
       hp: randomNumber(),
       attack: randomNumber(),
@@ -137,9 +134,6 @@ router.post("/", async function (req, res) {
   }
 })
 
-router.get("/delete", async function (req, res) {
-  await Pokemon.deleteMany({})
-})
 //save pokemon
 router.post("/new", async function (req, res) {
   const body = req.body

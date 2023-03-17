@@ -8,10 +8,10 @@ const Nav = () => {
     <Center py={3}>
       <Stack direction="row" gap={5} alignItems="center">
         <Link as={RouterLink} to="/createpokemon">
-          Create new Pokemon
+          Create new Fakémon
         </Link>
         <Link as={RouterLink} to="/">
-          View all Pokemon
+          View all creations
         </Link>
         <IconButton
           aria-label="Toggle darkmode"

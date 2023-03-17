@@ -16,9 +16,10 @@ import {
 import PokemonCard from "./PokemonCard"
 
 const PokemonForm = ({ setPokemon, pokemon, loading, setLoading }) => {
-  const [type, setType] = useState("")
+  const [type, setType] = useState()
   const [gen, setGen] = useState()
-  const [style, setStyle] = useState("")
+  const [style, setStyle] = useState()
+  const [isValid, setIsValid] = useState(false)
 
   const color = useColorModeValue("blue.500", "purple.200")
   const buttonColorScheme = useColorModeValue("blue", "purple")
@@ -28,6 +29,11 @@ const PokemonForm = ({ setPokemon, pokemon, loading, setLoading }) => {
   useEffect(() => {
     setPokemon()
   }, [])
+
+  //validate form
+  useEffect(() => {
+    setIsValid(gen && style && type ? true : false)
+  }, [gen, style, type])
 
   const handleSubmit = async (e) => {
     setLoading(true)
@@ -81,6 +87,7 @@ const PokemonForm = ({ setPokemon, pokemon, loading, setLoading }) => {
               noOptionsMessage={() => null}
               clearValueOnReset={false}
               placeholder={type ? type : "Type"}
+              required
             />
           </Box>
           <Box w={"50%"}>
@@ -106,7 +113,7 @@ const PokemonForm = ({ setPokemon, pokemon, loading, setLoading }) => {
           <Button
             type="submit"
             colorScheme={buttonColorScheme}
-            isDisabled={loading ? true : false}
+            isDisabled={loading || !isValid ? true : false}
           >
             {pokemon ? "Create new" : "Create"}
           </Button>
