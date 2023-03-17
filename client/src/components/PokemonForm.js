@@ -53,7 +53,7 @@ const PokemonForm = ({ setPokemon, pokemon, loading, setLoading }) => {
     try {
       const response = await pokemonService.savePokemon(pokemon)
       console.log(response)
-      navigate("/")
+      navigate(`/pokemon/${response.id}`)
     } catch (error) {
       console.error(error)
     } finally {
@@ -108,7 +108,7 @@ const PokemonForm = ({ setPokemon, pokemon, loading, setLoading }) => {
             colorScheme={buttonColorScheme}
             isDisabled={loading ? true : false}
           >
-            Create
+            {pokemon ? "Create new" : "Create"}
           </Button>
         </Center>
       </form>

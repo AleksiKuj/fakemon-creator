@@ -10,7 +10,9 @@ import {
   Spinner,
   Center,
   useColorModeValue,
+  Link,
 } from "@chakra-ui/react"
+import { Link as RouterLink } from "react-router-dom"
 
 const PokemonList = () => {
   const [pokemons, setPokemons] = useState([])
@@ -78,10 +80,41 @@ const PokemonList = () => {
       ) : (
         <SimpleGrid columns={[1, 1, 2, 3, 3, 4]} spacing={5}>
           {pokemons.map((pokemon) => (
-            <PokemonCard pokemon={pokemon} key={pokemon.id} />
+            <Link
+              as={RouterLink}
+              to={`/pokemon/${pokemon.id}`}
+              key={pokemon.id}
+              px={0}
+              mx={0}
+              maxW="350px"
+              margin="auto"
+            >
+              <PokemonCard pokemon={pokemon} />
+            </Link>
           ))}
         </SimpleGrid>
       )}
+      <Stack
+        direction="row"
+        gap={5}
+        py={5}
+        justifyContent="center"
+        align="center"
+      >
+        <Button
+          colorScheme={buttonColorScheme}
+          onClick={() => changePage("previous")}
+        >
+          Previous
+        </Button>
+        <Text>Page {page}</Text>
+        <Button
+          colorScheme={buttonColorScheme}
+          onClick={() => changePage("next")}
+        >
+          Next
+        </Button>
+      </Stack>
     </Box>
   )
 }

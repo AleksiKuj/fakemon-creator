@@ -14,5 +14,9 @@ const getAll = async (page) => {
   const response = await axios.get(`${baseUrl}?page=${page}`)
   return response.data
 }
-const exports = { generatePokemon, getAll, savePokemon }
+const getOne = async (id) => {
+  const response = await axios.get(`${baseUrl}/${id}`)
+  return response.data
+}
+const exports = { generatePokemon, getAll, savePokemon, getOne }
 export default exports

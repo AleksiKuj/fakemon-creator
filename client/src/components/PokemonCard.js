@@ -1,5 +1,5 @@
 import "./pokemonCard.css"
-import { typeColors, gradientColors } from "../utils/selectOptions"
+import { gradientColors } from "../utils/selectOptions"
 import { Spinner, Center, Box } from "@chakra-ui/react"
 
 const PokemonCard = ({ pokemon, loading }) => {
@@ -22,6 +22,9 @@ const PokemonCard = ({ pokemon, loading }) => {
         <Box
           className="pokemon-card"
           bgGradient={`radial${gradientColors[pokemon.type]}`}
+          _hover={{
+            boxShadow: "dark-lg",
+          }}
         >
           <div>
             <span className="pokemon-name">{pokemon.name}</span>

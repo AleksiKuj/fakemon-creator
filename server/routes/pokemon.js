@@ -47,6 +47,20 @@ router.get("/", async (req, res) => {
   }
 })
 
+//get one pokemon
+router.get("/:id", async (req, res) => {
+  const { id } = req.params
+  console.log(id)
+  try {
+    const pokemon = await Pokemon.findById(id)
+
+    res.status(200).json({ pokemon })
+  } catch (error) {
+    console.log(error)
+    res.status(400).json({ error })
+  }
+})
+
 //generate random pokemon
 router.post("/", async function (req, res) {
   const type = req.body.type || "water"
