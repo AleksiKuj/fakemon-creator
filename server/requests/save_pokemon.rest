@@ -1,0 +1,18 @@
+POST http://localhost:3001/api/pokemon/new
+Content-Type:application/json 
+
+{
+    "name":"Test name",
+    "ability":"Test ability - Ability description",
+    "bio":"Test bio",
+    "type":"Water",
+    "imageUrl":"https://cdn.discordapp.com/attachments/669109179105017859/1086001027309908028/img-AKnqtMfrewY0R2muuTfQebNV.png",
+    "pokemonStats" :{
+        "hp": 60,
+        "attack": 60,
+        "defense": 60,
+        "specialAttack": 50,
+        "specialDefense": 100,
+        "speed": 50
+    }
+}
