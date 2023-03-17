@@ -8,8 +8,19 @@ const PokemonCard = ({ pokemon, loading }) => {
     description: pokemon.ability.slice(pokemon.ability.indexOf("-") + 1),
   }
 
+  const rareStyle = {
+    boxShadow: `0px 1px 109px 4px rgba(202,209,77,1)`,
+    WebkitBoxShadow: "0px 1px 109px 4px rgba(202,209,77,1)",
+    MozBoxShadow: "0px 1px 109px 4px rgba(202,209,77,1)",
+  }
+  const uncommonStyle = {
+    boxShadow: `0px 0px 70px -5px rgba(229,232,178,1)`,
+    WebkitBoxShadow: "0px 0px 70px -5px rgba(229,232,178,1)",
+    MozBoxShadow: "0px 0px 70px -5px rgba(229,232,178,1)",
+  }
+
   return (
-    <Center w={["300px"]} margin="auto" color="black">
+    <Center w={["330px"]} margin="auto" color="black">
       {loading ? (
         <Spinner
           thickness="10px"
@@ -25,6 +36,13 @@ const PokemonCard = ({ pokemon, loading }) => {
           _hover={{
             boxShadow: "dark-lg",
           }}
+          style={
+            pokemon.rarity && pokemon.rarity === "Rare"
+              ? rareStyle
+              : pokemon.rarity && pokemon.rarity === "Uncommon"
+              ? uncommonStyle
+              : {}
+          }
         >
           <div>
             <Stack direction="row" textAlign="center" alignItems="center">
@@ -35,6 +53,9 @@ const PokemonCard = ({ pokemon, loading }) => {
                 alt={pokemon.type}
                 width="30px"
               />
+              <Text fontWeight="semibold">
+                {pokemon.rarity && pokemon.rarity}
+              </Text>
               <Box direction="row" w="full">
                 <Text float="right">{pokemon.pokemonStats.hp}HP</Text>
               </Box>

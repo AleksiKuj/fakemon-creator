@@ -48,6 +48,7 @@ const PokemonSchema = new mongoose.Schema(
         required: true,
       },
     },
+    rarity: { type: String, required: true },
     createdAt: { type: Date, default: Date.now },
   },
   { timestamps: true }

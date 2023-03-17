@@ -135,7 +135,10 @@ const PokemonForm = ({ setPokemon, pokemon, loading, setLoading }) => {
               <PokemonCard pokemon={pokemon} />
             </div>
             <Stack gap={0}>
-              <Button colorScheme="teal" onClick={() => savePokemon()}>
+              <Button
+                colorScheme={buttonColorScheme}
+                onClick={() => savePokemon()}
+              >
                 Save Pokemon
               </Button>
               <Text fontSize="sm" textAlign="center">

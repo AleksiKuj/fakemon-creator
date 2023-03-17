@@ -68,6 +68,17 @@ router.post("/", async function (req, res) {
   const style = req.body.style || "3D"
   const gen = req.body.gen || "5"
 
+  //common 60%, uncommon 30%, rare 10%
+  let rarity
+  const rand = Math.random()
+  if (rand < 0.6) {
+    rarity = "Common"
+  } else if (rand < 0.9) {
+    rarity = "Uncommon"
+  } else {
+    rarity = "Rare"
+  }
+
   //random value between 20-100 for stats
   const randomNumber = () => Math.floor(Math.random() * (100 - 20 + 1) + 20)
 
@@ -127,7 +138,9 @@ router.post("/", async function (req, res) {
       specialDefense: randomNumber(),
       speed: randomNumber(),
     }
-    res.status(200).json({ name, ability, bio, imageUrl, type, pokemonStats })
+    res
+      .status(200)
+      .json({ name, ability, bio, imageUrl, type, pokemonStats, rarity })
   } catch (error) {
     console.log(error)
     res.status(400).json({ error })
@@ -160,6 +173,7 @@ router.post("/new", async function (req, res) {
       imageUrl: savedImageUrl,
       type: body.type,
       pokemonStats: body.pokemonStats,
+      rarity: body.rarity,
     })
 
     const savedPokemon = await pokemon.save()

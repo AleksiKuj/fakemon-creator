@@ -1,5 +1,6 @@
 import axios from "axios"
 
+//"http://localhost:3001/api/pokemon"
 const baseUrl = "/api/pokemon"
 
 const generatePokemon = async (data) => {

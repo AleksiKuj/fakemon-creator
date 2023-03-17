@@ -5,6 +5,13 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   overflow: hidden;
   padding: 5px;
+  transition: box-shadow 0.3s ease-in-out;
+  transition: all 0.1s ease-in-out;
+}
+.pokemon-card:hover {
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.5) !important;
+  width: 330px !important;
+  height: 530px;
 }
 .pokemon-image {
   width: 100%;

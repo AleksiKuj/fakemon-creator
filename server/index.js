@@ -8,9 +8,15 @@ const path = require("path")
 const pokemon = require("./routes/pokemon")
 const http = require("http")
 
+let mongoUrl
+if (process.env.NODE_ENV === "prod") {
+  mongoUrl = process.env.MONGODB_URI
+} else {
+  mongoUrl = process.env.MONGODB_DEV_URI
+}
 const connect = async () => {
   try {
-    await mongoose.connect(process.env.MONGODB_URI)
+    await mongoose.connect(mongoUrl)
     console.log("connected to MongoDB")
   } catch (error) {
     console.log(error)

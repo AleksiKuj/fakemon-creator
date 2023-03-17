@@ -7,10 +7,24 @@ const Nav = () => {
   return (
     <Center py={3}>
       <Stack direction="row" gap={5} alignItems="center">
-        <Link as={RouterLink} to="/createpokemon">
+        <Link
+          as={RouterLink}
+          to="/createpokemon"
+          _hover={{
+            fontSize: "lg",
+            textDecoration: "underline",
+          }}
+        >
           Create new Fakémon
         </Link>
-        <Link as={RouterLink} to="/">
+        <Link
+          as={RouterLink}
+          to="/"
+          _hover={{
+            fontSize: "lg",
+            textDecoration: "underline",
+          }}
+        >
           View all creations
         </Link>
         <IconButton

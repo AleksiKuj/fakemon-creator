@@ -103,7 +103,7 @@ const PokemonList = () => {
         gap={5}
         py={5}
         justifyContent="center"
-        align="center"
+        align="bottom"
       >
         <Button
           colorScheme={buttonColorScheme}

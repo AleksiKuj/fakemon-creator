@@ -58,7 +58,11 @@ const PokemonView = () => {
   }
 
   if (!pokemon) {
-    return <Center>Fakémon not found</Center>
+    return (
+      <Text textAlign="center" fontSize="lg" fontWeight="semibold">
+        Fakémon not found
+      </Text>
+    )
   }
 
   return (
@@ -71,7 +75,7 @@ const PokemonView = () => {
         >
           <PokemonCard pokemon={pokemon} />
           <Box onClick={(e) => handleClick(e)}>
-            <CardBack />
+            <CardBack pokemon={pokemon} />
           </Box>
         </ReactCardFlip>
         <Stack
