@@ -6,6 +6,7 @@ const cors = require("cors")
 const app = express()
 const path = require("path")
 const pokemon = require("./routes/pokemon")
+const http = require("http")
 
 const connect = async () => {
   try {
@@ -30,8 +31,10 @@ app.get("/*", function (req, res) {
     }
   })
 })
-const PORT = process.env.port || 3001
 
-app.listen(PORT, () => {
+const server = http.createServer(app)
+const PORT = process.env.PORT || 3001
+
+server.listen(PORT, () => {
   console.log(`Running on port ${PORT}`)
 })
