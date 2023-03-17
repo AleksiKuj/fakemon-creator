@@ -11,6 +11,9 @@
   height: 60%;
   text-align: center;
 }
+.type-icon {
+  float: right;
+}
 
 .pokemon-image img {
   max-width: 100%;

@@ -1,6 +1,6 @@
 import "./pokemonCard.css"
 import { gradientColors } from "../utils/selectOptions"
-import { Spinner, Center, Box } from "@chakra-ui/react"
+import { Spinner, Center, Box, Stack, Text } from "@chakra-ui/react"
 
 const PokemonCard = ({ pokemon, loading }) => {
   const ability = {
@@ -27,8 +27,18 @@ const PokemonCard = ({ pokemon, loading }) => {
           }}
         >
           <div>
-            <span className="pokemon-name">{pokemon.name}</span>
-            <span className="pokemon-hp">{pokemon.pokemonStats.hp}HP</span>
+            <Stack direction="row" textAlign="center" alignItems="center">
+              <Text className="pokemon-name">{pokemon.name} </Text>
+              <img
+                className="type-icon"
+                src={require(`../images/${pokemon.type}.png`)}
+                alt={pokemon.type}
+                width="30px"
+              />
+              <Box direction="row" w="full">
+                <Text float="right">{pokemon.pokemonStats.hp}HP</Text>
+              </Box>
+            </Stack>
           </div>
           <div className="pokemon-image">
             <img src={pokemon.imageUrl} alt={pokemon.name} />

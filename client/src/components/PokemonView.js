@@ -2,6 +2,7 @@ import PokemonCard from "./PokemonCard"
 import { useState, useEffect } from "react"
 import { useParams } from "react-router-dom"
 import pokemonService from "../services/pokemon"
+import CardBack from "./CardBack"
 import {
   Box,
   Center,
@@ -14,9 +15,11 @@ import {
   SimpleGrid,
 } from "@chakra-ui/react"
 import { CopyIcon } from "@chakra-ui/icons"
+import ReactCardFlip from "react-card-flip"
 
 const PokemonView = () => {
   const [pokemon, setPokemon] = useState()
+  const [isFlipped, setIsFlipped] = useState(true)
   const { id } = useParams()
   const toast = useToast()
 
@@ -34,6 +37,15 @@ const PokemonView = () => {
     }
     getPokemon()
   }, [])
+  useEffect(() => {
+    if (pokemon) document.title = `Fakémon - ${pokemon.name}`
+  }, [pokemon])
+
+  const handleClick = (e) => {
+    e.preventDefault()
+    setIsFlipped(!isFlipped)
+    console.log("click")
+  }
 
   const handleCopy = () => {
     navigator.clipboard.writeText(window.location.href)
@@ -48,18 +60,34 @@ const PokemonView = () => {
   if (!pokemon) {
     return <Center>Fakémon not found</Center>
   }
+
   return (
     <Box py={5}>
       <SimpleGrid columns={[1, 1, 2]} spacing={[2, 2, 0]}>
-        <PokemonCard pokemon={pokemon} />
-
+        <ReactCardFlip
+          isFlipped={isFlipped}
+          flipDirection="horizontal"
+          flipSpeedBackToFront={1}
+        >
+          <PokemonCard pokemon={pokemon} />
+          <Box onClick={(e) => handleClick(e)}>
+            <CardBack />
+          </Box>
+        </ReactCardFlip>
         <Stack
           textTransform="uppercase"
           fontWeight="bold"
           alignItems={"center"}
           width="100%"
         >
-          <Text>{pokemon.name}</Text>
+          <Stack direction="row" textAlign="center" alignItems="center">
+            <Text>{pokemon.name} </Text>
+            <img
+              src={require(`../images/${pokemon.type}.png`)}
+              alt={pokemon.type}
+              width="40px"
+            />
+          </Stack>
           <Text>hp {pokemon.pokemonStats.hp}</Text>
           <Progress
             colorScheme="red"

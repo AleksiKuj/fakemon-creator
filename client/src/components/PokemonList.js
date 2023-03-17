@@ -36,6 +36,7 @@ const PokemonList = () => {
       }
     }
     getPokemon()
+    document.title = `Fakémon - Page ${page}`
   }, [page])
 
   const changePage = (direction) => {
@@ -88,6 +89,9 @@ const PokemonList = () => {
               mx={0}
               maxW="350px"
               margin="auto"
+              _hover={{
+                textDecoration: "none",
+              }}
             >
               <PokemonCard pokemon={pokemon} />
             </Link>

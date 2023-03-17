@@ -17,6 +17,7 @@ const Nav = () => {
           aria-label="Toggle darkmode"
           icon={colorMode === "light" ? <MoonIcon /> : <SunIcon />}
           bg="transparent"
+          color={colorMode === "light" ? "purple.500" : "blue.400"}
           onClick={toggleColorMode}
         />
       </Stack>
