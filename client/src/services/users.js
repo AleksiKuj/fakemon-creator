@@ -1,5 +1,6 @@
 import axios from "axios"
 
+//"http://localhost:3001/api/users"
 const baseUrl = "/api/users"
 
 const login = async (credentials) => {

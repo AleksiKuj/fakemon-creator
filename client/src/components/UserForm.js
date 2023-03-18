@@ -24,16 +24,11 @@ const UserForm = ({
         <form onSubmit={handleSubmit}>
           <FormControl>
             <FormLabel>Username</FormLabel>
-            <Input
-              type="text"
-              placeholder="username"
-              onChange={(e) => setUsername(e.target.value)}
-            />
+            <Input type="text" onChange={(e) => setUsername(e.target.value)} />
 
             <FormLabel>Password</FormLabel>
             <Input
               type="password"
-              placeholder="password"
               onChange={(e) => setPassword(e.target.value)}
             />
           </FormControl>

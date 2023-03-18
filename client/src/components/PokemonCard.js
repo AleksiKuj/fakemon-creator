@@ -1,6 +1,6 @@
 import "./pokemonCard.css"
 import { gradientColors } from "../utils/selectOptions"
-import { Spinner, Center, Box, Stack, Text } from "@chakra-ui/react"
+import { Spinner, Center, Box, Stack, Text, Flex } from "@chakra-ui/react"
 
 const PokemonCard = ({ pokemon, loading }) => {
   const ability = {
@@ -45,31 +45,40 @@ const PokemonCard = ({ pokemon, loading }) => {
           }
         >
           <div>
-            <Stack direction="row" textAlign="center" alignItems="center">
+            <Stack
+              direction="row"
+              textAlign="center"
+              alignItems="center"
+              textTransform="uppercase"
+            >
               <Text className="pokemon-name">{pokemon.name} </Text>
+
               <img
                 className="type-icon"
                 src={require(`../images/${pokemon.type}.png`)}
                 alt={pokemon.type}
                 width="30px"
               />
-              <Text fontWeight="semibold">
-                {pokemon.rarity && pokemon.rarity}
-              </Text>
+
+              <Text fontSize="sm">{pokemon.rarity && pokemon.rarity}</Text>
               <Box direction="row" w="full">
-                <Text float="right">{pokemon.pokemonStats.hp}HP</Text>
+                <Text float="right" fontSize="sm">
+                  {pokemon.pokemonStats.hp}HP
+                </Text>
               </Box>
             </Stack>
           </div>
-          <div className="pokemon-image">
+          <Center className="pokemon-image">
             <img src={pokemon.imageUrl} alt={pokemon.name} />
-          </div>
+          </Center>
           <div className="pokemon-info">
             <b className="ability-name">{ability.name}</b>
             <p className="ability-description">{ability.description}</p>
-            <p className="pokemon-bio">
-              {pokemon.bio[0].toUpperCase() + pokemon.bio.slice(1)}
-            </p>
+            <Flex h="full" direction="column" justify="end">
+              <p className="pokemon-bio">
+                {pokemon.bio[0].toUpperCase() + pokemon.bio.slice(1)}
+              </p>
+            </Flex>
           </div>
         </Box>
       )}

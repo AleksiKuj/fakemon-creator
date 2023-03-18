@@ -144,6 +144,7 @@ const PokemonView = () => {
           fontWeight="bold"
           alignItems={"center"}
           width="100%"
+          fontSize="lg"
         >
           <Stack direction="row" textAlign="center" alignItems="center">
             <Text>{pokemon.name} </Text>
