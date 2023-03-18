@@ -28,6 +28,7 @@ const PokemonView = () => {
   const [user, setUser] = useState("")
 
   const buttonColorScheme = useColorModeValue("blue", "purple")
+
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem("fakemonUser")
     if (loggedUserJSON) {
@@ -44,6 +45,22 @@ const PokemonView = () => {
       console.log(response)
     } catch (error) {
       console.error(error)
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.message === "Fakemon already liked"
+      ) {
+        toast.closeAll()
+        toast({
+          position: "top",
+          title: `Error`,
+          description: "Can only like once",
+          status: "error",
+          isClosable: true,
+          duration: 3000,
+        })
+        return
+      }
     }
   }
 
@@ -51,7 +68,6 @@ const PokemonView = () => {
     const getPokemon = async () => {
       try {
         const response = await pokemonService.getOne(id)
-        console.log(response)
         setPokemon(response.pokemon)
         setLikes(response.pokemon.likes)
       } catch (error) {
@@ -67,7 +83,6 @@ const PokemonView = () => {
   const handleClick = (e) => {
     e.preventDefault()
     setIsFlipped(!isFlipped)
-    console.log("click")
   }
 
   const handleCopy = () => {

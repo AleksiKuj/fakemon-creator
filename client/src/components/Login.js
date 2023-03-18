@@ -1,10 +1,10 @@
 import { Center, Text, Stack, useToast } from "@chakra-ui/react"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import userService from "../services/users"
 import UserForm from "./UserForm"
 
-const Login = ({ setUser }) => {
+const Login = ({ setUser, user }) => {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
 
@@ -17,7 +17,6 @@ const Login = ({ setUser }) => {
       username,
       password,
     }
-    console.log(credentials)
     const login = async (credentials) => {
       try {
         const response = await userService.login(credentials)
@@ -34,7 +33,6 @@ const Login = ({ setUser }) => {
           return
         }
         window.localStorage.setItem("fakemonUser", JSON.stringify(response))
-        console.log(response)
         setUser(response)
         navigate("/")
       } catch (error) {
@@ -43,7 +41,7 @@ const Login = ({ setUser }) => {
         toast({
           position: "top",
           title: `Error`,
-          description: "Invalid username or password",
+          description: "Internal server error :( Try again later",
           status: "error",
           isClosable: true,
           duration: 5000,
@@ -52,6 +50,14 @@ const Login = ({ setUser }) => {
     }
     login(credentials)
   }
+  //redirect if user is logged in
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem("fakemonUser")
+    if (loggedUserJSON) {
+      navigate("/")
+    }
+  }, [])
+
   return (
     <Center py={5}>
       <Stack>

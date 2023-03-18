@@ -1,5 +1,5 @@
 import { Center, Text, Stack, useToast } from "@chakra-ui/react"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import userService from "../services/users"
 import UserForm from "./UserForm"
@@ -60,6 +60,14 @@ const Register = () => {
 
     register(credentials)
   }
+
+  //redirect if user is logged in
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem("fakemonUser")
+    if (loggedUserJSON) {
+      navigate("/")
+    }
+  }, [])
   return (
     <Center py={5}>
       <Stack>

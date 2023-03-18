@@ -17,6 +17,7 @@ const UserForm = ({
   buttonText,
 }) => {
   const buttonColorScheme = useColorModeValue("blue", "purple")
+  const borderColor = useColorModeValue("blue.500", "purple.500")
 
   return (
     <Center py={5}>
@@ -24,12 +25,17 @@ const UserForm = ({
         <form onSubmit={handleSubmit}>
           <FormControl>
             <FormLabel>Username</FormLabel>
-            <Input type="text" onChange={(e) => setUsername(e.target.value)} />
+            <Input
+              type="text"
+              onChange={(e) => setUsername(e.target.value)}
+              borderColor={borderColor}
+            />
 
             <FormLabel>Password</FormLabel>
             <Input
               type="password"
               onChange={(e) => setPassword(e.target.value)}
+              borderColor={borderColor}
             />
           </FormControl>
           <Center py={5}>

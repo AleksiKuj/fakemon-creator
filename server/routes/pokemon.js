@@ -29,12 +29,20 @@ router.get("/", async (req, res) => {
   const limit = parseInt(req.query.limit) || 8
   //items before startIndex are not fetched
   const startIndex = (page - 1) * limit
-
   try {
-    const pokemon = await Pokemon.find({})
-      .sort({ createdAt: -1 })
-      .skip(startIndex)
-      .limit(limit)
+    let pokemon
+
+    if (req.query.sortBy === "likes") {
+      pokemon = await Pokemon.find({})
+        .sort({ likes: -1 })
+        .skip(startIndex)
+        .limit(limit)
+    } else {
+      pokemon = await Pokemon.find({})
+        .sort({ createdAt: -1 })
+        .skip(startIndex)
+        .limit(limit)
+    }
 
     //Count the number of Pokemon in database
     const totalPokemon = await Pokemon.countDocuments({})
@@ -204,15 +212,15 @@ router.put("/:id/like", userExtractor, async function (req, res) {
     }
 
     //can only like if user hasn't liked already
-    if (!user.likedFakemon.includes(id)) {
+    if (user.likedFakemon.includes(id)) {
+      return res.status(403).json({ message: "Fakemon already liked" })
+    } else {
       pokemon.likes += 1
       const savedPokemon = await pokemon.save()
       user.likedFakemon = user.likedFakemon.concat(savedPokemon._id)
       await user.save()
 
       res.status(200).json(savedPokemon)
-    } else {
-      return res.status(403).json({ message: "Fakemon already liked" })
     }
   } catch (error) {
     console.log(error)

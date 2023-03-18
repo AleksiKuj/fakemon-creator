@@ -74,6 +74,10 @@ const styleOptions = [
   { value: "2d", label: "2D" },
   { value: "3d", label: "3D" },
 ]
+const sortOptions = [
+  { value: "createdAt", label: "Newest" },
+  { value: "likes", label: "Likes" },
+]
 
 module.exports = {
   typeOptions,
@@ -81,4 +85,5 @@ module.exports = {
   styleOptions,
   typeColors,
   gradientColors,
+  sortOptions,
 }

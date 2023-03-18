@@ -12,7 +12,7 @@
   box-shadow: 0 0 10px rgba(255, 255, 255, 0.5) !important;
   width: 330px;
   height: 530px;
-  animation: shake 0.5s;
+  animation: shake 0.6s;
   animation-iteration-count: infinite;
 }
 @keyframes shake {

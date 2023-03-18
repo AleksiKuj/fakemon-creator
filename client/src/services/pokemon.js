@@ -24,8 +24,8 @@ const like = async (id) => {
   const response = await axios.put(`${baseUrl}/${id}/like`, "", config)
   return response.data
 }
-const getAll = async (page) => {
-  const response = await axios.get(`${baseUrl}?page=${page}`)
+const getAll = async (page, sortBy) => {
+  const response = await axios.get(`${baseUrl}?page=${page}&sortBy=${sortBy}`)
   return response.data
 }
 const getOne = async (id) => {

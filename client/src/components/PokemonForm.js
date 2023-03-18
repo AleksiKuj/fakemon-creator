@@ -45,7 +45,6 @@ const PokemonForm = ({ setPokemon, pokemon, loading, setLoading }) => {
         gen,
         style,
       })
-      console.log(response)
       setPokemon(response)
     } catch (error) {
       console.log(error)
@@ -58,7 +57,6 @@ const PokemonForm = ({ setPokemon, pokemon, loading, setLoading }) => {
     setLoading(true)
     try {
       const response = await pokemonService.savePokemon(pokemon)
-      console.log(response)
       navigate(`/pokemon/${response.id}`)
     } catch (error) {
       console.error(error)
