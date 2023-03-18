@@ -27,6 +27,7 @@ const Nav = ({ user, setUser }) => {
     localStorage.removeItem("fakemonUser")
     setUser("")
     navigate("/")
+    onClose()
   }
 
   return (
@@ -137,6 +138,7 @@ const Nav = ({ user, setUser }) => {
                 }}
                 p={2}
                 borderRadius="md"
+                onClick={onClose}
               >
                 Create
               </Link>
@@ -148,6 +150,7 @@ const Nav = ({ user, setUser }) => {
                 }}
                 p={2}
                 borderRadius="md"
+                onClick={onClose}
               >
                 View all creations
               </Link>
@@ -173,6 +176,7 @@ const Nav = ({ user, setUser }) => {
                     }}
                     p={2}
                     borderRadius="md"
+                    onClick={onClose}
                   >
                     Sign in
                   </Link>
@@ -184,11 +188,19 @@ const Nav = ({ user, setUser }) => {
                     }}
                     p={2}
                     borderRadius="md"
+                    onClick={onClose}
                   >
                     Sign up
                   </Link>
                 </>
               )}
+              <IconButton
+                aria-label="Toggle darkmode"
+                icon={colorMode === "light" ? <MoonIcon /> : <SunIcon />}
+                bg="transparent"
+                color={colorMode === "light" ? "purple.500" : "blue.400"}
+                onClick={toggleColorMode}
+              />
             </Stack>
           </Box>
         ) : null}

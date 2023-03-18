@@ -14,6 +14,7 @@ import {
   Text,
   SimpleGrid,
   Tooltip,
+  Spinner,
 } from "@chakra-ui/react"
 import { CopyIcon } from "@chakra-ui/icons"
 import { FaRegThumbsUp } from "react-icons/fa"
@@ -26,6 +27,7 @@ const PokemonView = () => {
   const { id } = useParams()
   const toast = useToast()
   const [user, setUser] = useState("")
+  const [loading, setLoading] = useState(true)
 
   const buttonColorScheme = useColorModeValue("blue", "purple")
 
@@ -72,10 +74,13 @@ const PokemonView = () => {
         setLikes(response.pokemon.likes)
       } catch (error) {
         console.error(error)
+      } finally {
+        setLoading(false)
       }
     }
     getPokemon()
   }, [])
+
   useEffect(() => {
     if (pokemon) document.title = `Fakémon - ${pokemon.name}`
   }, [pokemon])
@@ -95,12 +100,22 @@ const PokemonView = () => {
     })
   }
 
-  if (!pokemon) {
+  if (loading) {
     return (
-      <Text textAlign="center" fontSize="lg" fontWeight="semibold">
-        Fakémon not found
-      </Text>
+      <Center>
+        <Spinner
+          thickness="10px"
+          speed="0.8s"
+          emptyColor="red.600"
+          color="blue.600"
+          size="xl"
+        />
+      </Center>
     )
+  }
+
+  if (!loading && !pokemon) {
+    return <Text textAlign="center">Oops! Fakemon not found</Text>
   }
 
   return (
