@@ -1,6 +1,8 @@
 const express = require("express")
 const router = express.Router()
 const Pokemon = require("../models/pokemon")
+const User = require("../models/user")
+const { userExtractor } = require("../utils/middleware")
 const cloudinary = require("cloudinary").v2
 const { Configuration, OpenAIApi } = require("openai")
 
@@ -174,6 +176,7 @@ router.post("/new", async function (req, res) {
       type: body.type,
       pokemonStats: body.pokemonStats,
       rarity: body.rarity,
+      likes: 0,
     })
 
     const savedPokemon = await pokemon.save()
@@ -181,6 +184,39 @@ router.post("/new", async function (req, res) {
   } catch (error) {
     console.log(error)
     res.status(400).json({ error })
+  }
+})
+
+// like
+router.put("/:id/like", userExtractor, async function (req, res) {
+  const id = req.params.id
+
+  try {
+    const user = req.user
+    console.log(user)
+    if (!user) {
+      return response.status(401).json({ error: "not authenticated" })
+    }
+
+    const pokemon = await Pokemon.findById(id)
+    if (!pokemon) {
+      return res.status(404).json({ message: "Pokemon not found" })
+    }
+
+    //can only like if user hasn't liked already
+    if (!user.likedFakemon.includes(id)) {
+      pokemon.likes += 1
+      const savedPokemon = await pokemon.save()
+      user.likedFakemon = user.likedFakemon.concat(savedPokemon._id)
+      await user.save()
+
+      res.status(200).json(savedPokemon)
+    } else {
+      return res.status(403).json({ message: "Fakemon already liked" })
+    }
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ error })
   }
 })
 

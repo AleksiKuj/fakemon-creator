@@ -40,7 +40,10 @@ function App() {
             <Nav user={user} setUser={setUser} />
             <Routes>
               <Route path="/" element={<PokemonList />} />
-              <Route path="/pokemon/:id" element={<PokemonView />} />
+              <Route
+                path="/pokemon/:id"
+                element={<PokemonView user={user} />}
+              />
               <Route
                 path="/createpokemon"
                 element={

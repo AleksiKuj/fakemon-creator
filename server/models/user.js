@@ -5,12 +5,12 @@ const userSchema = new Schema({
   username: String,
   password: String,
   passwordHash: String,
-  //   likedFakemon: [
-  //     {
-  //       type: Schema.Types.ObjectId,
-  //       ref: "Review",
-  //     },
-  //   ],
+  likedFakemon: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Pokemon",
+    },
+  ],
 })
 
 //replaces _id object with string and removes __v from displaying

@@ -13,17 +13,39 @@ import {
   Stack,
   Text,
   SimpleGrid,
+  Tooltip,
 } from "@chakra-ui/react"
 import { CopyIcon } from "@chakra-ui/icons"
+import { FaRegThumbsUp } from "react-icons/fa"
 import ReactCardFlip from "react-card-flip"
 
 const PokemonView = () => {
   const [pokemon, setPokemon] = useState()
+  const [likes, setLikes] = useState(0)
   const [isFlipped, setIsFlipped] = useState(true)
   const { id } = useParams()
   const toast = useToast()
+  const [user, setUser] = useState("")
 
   const buttonColorScheme = useColorModeValue("blue", "purple")
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem("fakemonUser")
+    if (loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON)
+      setUser(user)
+      pokemonService.setToken(user.token)
+    }
+  }, [setUser])
+
+  const likeFakemon = async () => {
+    try {
+      const response = await pokemonService.like(pokemon.id)
+      setLikes(likes + 1)
+      console.log(response)
+    } catch (error) {
+      console.error(error)
+    }
+  }
 
   useEffect(() => {
     const getPokemon = async () => {
@@ -31,6 +53,7 @@ const PokemonView = () => {
         const response = await pokemonService.getOne(id)
         console.log(response)
         setPokemon(response.pokemon)
+        setLikes(response.pokemon.likes)
       } catch (error) {
         console.error(error)
       }
@@ -68,16 +91,54 @@ const PokemonView = () => {
   return (
     <Box py={5}>
       <SimpleGrid columns={[1, 1, 2]} spacing={[2, 2, 0]}>
-        <ReactCardFlip
-          isFlipped={isFlipped}
-          flipDirection="horizontal"
-          flipSpeedBackToFront={1}
-        >
-          <PokemonCard pokemon={pokemon} />
-          <Box onClick={(e) => handleClick(e)}>
-            <CardBack pokemon={pokemon} />
-          </Box>
-        </ReactCardFlip>
+        <Box>
+          <ReactCardFlip
+            isFlipped={isFlipped}
+            flipDirection="horizontal"
+            flipSpeedBackToFront={1}
+          >
+            <PokemonCard pokemon={pokemon} />
+            <Box onClick={(e) => handleClick(e)}>
+              <CardBack pokemon={pokemon} />
+            </Box>
+          </ReactCardFlip>
+          <Center py={5}>
+            <Stack direction="row" alignItems="center">
+              <Button
+                leftIcon={<CopyIcon />}
+                colorScheme={buttonColorScheme}
+                variant="solid"
+                onClick={() => handleCopy()}
+              >
+                Share
+              </Button>
+              {!user ? (
+                <Tooltip label="Must be signed in to like">
+                  <Button
+                    leftIcon={<FaRegThumbsUp />}
+                    colorScheme={buttonColorScheme}
+                    variant="solid"
+                    onClick={() => likeFakemon()}
+                    isDisabled={true}
+                  >
+                    Like
+                  </Button>
+                </Tooltip>
+              ) : (
+                <Button
+                  leftIcon={<FaRegThumbsUp />}
+                  colorScheme={buttonColorScheme}
+                  variant="solid"
+                  onClick={() => likeFakemon()}
+                >
+                  Like
+                </Button>
+              )}
+
+              <Text>{likes}</Text>
+            </Stack>
+          </Center>
+        </Box>
         <Stack
           textTransform="uppercase"
           fontWeight="bold"
@@ -136,16 +197,6 @@ const PokemonView = () => {
           />
         </Stack>
       </SimpleGrid>
-      <Center py="5">
-        <Button
-          leftIcon={<CopyIcon />}
-          colorScheme={buttonColorScheme}
-          variant="solid"
-          onClick={() => handleCopy()}
-        >
-          Share
-        </Button>
-      </Center>
     </Box>
   )
 }

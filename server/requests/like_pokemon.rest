@@ -1,0 +1,3 @@
+PUT http://localhost:3001/api/pokemon/641579be43c602fbfea4f19c/like
+Content-Type:application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXJuYW1lMiIsImlkIjoiNjQxNTdmZWU3MzFjYmMxMzgzNDgxNjVhIiwiaWF0IjoxNjc5MTMwNjEzLCJleHAiOjE2Nzk3MzU0MTN9.WcTlgSz10uYt5mSLwJDk70qF0SSXh_PUiC-p0qWHyt0
