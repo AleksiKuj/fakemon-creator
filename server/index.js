@@ -5,7 +5,8 @@ mongoose.set("strictQuery", false)
 const cors = require("cors")
 const app = express()
 const path = require("path")
-const pokemon = require("./routes/pokemon")
+const pokemonRouter = require("./routes/pokemon")
+const usersRouter = require("./routes/users")
 const http = require("http")
 
 let mongoUrl
@@ -28,7 +29,8 @@ app.use(express.json())
 app.use(cors())
 app.use(express.static(path.join(__dirname, "build")))
 
-app.use("/api/pokemon", pokemon)
+app.use("/api/pokemon", pokemonRouter)
+app.use("/api/users", usersRouter)
 
 app.get("/*", function (req, res) {
   res.sendFile(path.join(__dirname, "build/index.html"), function (err) {

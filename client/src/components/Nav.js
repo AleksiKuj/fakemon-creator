@@ -1,12 +1,18 @@
-import { Center, Link, Stack, IconButton, useColorMode } from "@chakra-ui/react"
-import { Link as RouterLink } from "react-router-dom"
-import { MoonIcon, SunIcon } from "@chakra-ui/icons"
+import { Center, Link, Stack, Button } from "@chakra-ui/react"
+import { Link as RouterLink, useNavigate } from "react-router-dom"
 
-const Nav = () => {
-  const { colorMode, toggleColorMode } = useColorMode()
+const Nav = ({ user, setUser }) => {
+  const navigate = useNavigate()
+
+  const handleLogout = () => {
+    localStorage.removeItem("fakemonUser")
+    setUser("")
+    navigate("/")
+  }
+
   return (
-    <Center py={3}>
-      <Stack direction="row" gap={5} alignItems="center">
+    <Center pt={3}>
+      <Stack direction={["column", "row"]} gap={[1, 5]} alignItems="center">
         <Link
           as={RouterLink}
           to="/createpokemon"
@@ -27,13 +33,33 @@ const Nav = () => {
         >
           View all creations
         </Link>
-        <IconButton
-          aria-label="Toggle darkmode"
-          icon={colorMode === "light" ? <MoonIcon /> : <SunIcon />}
-          bg="transparent"
-          color={colorMode === "light" ? "purple.500" : "blue.400"}
-          onClick={toggleColorMode}
-        />
+
+        {user ? (
+          <Button onClick={handleLogout}>LOGOUT</Button>
+        ) : (
+          <>
+            <Link
+              as={RouterLink}
+              to="/login"
+              _hover={{
+                fontSize: "lg",
+                textDecoration: "underline",
+              }}
+            >
+              Login
+            </Link>
+            <Link
+              as={RouterLink}
+              to="/register"
+              _hover={{
+                fontSize: "lg",
+                textDecoration: "underline",
+              }}
+            >
+              Sign up
+            </Link>
+          </>
+        )}
       </Stack>
     </Center>
   )
