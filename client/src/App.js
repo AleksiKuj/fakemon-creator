@@ -45,7 +45,7 @@ function App() {
                 element={<PokemonView user={user} />}
               />
               <Route
-                path="/createpokemon"
+                path="/createfakemon"
                 element={
                   <PokemonForm
                     setPokemon={setPokemon}

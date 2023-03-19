@@ -20,7 +20,7 @@ const UserForm = ({
   const borderColor = useColorModeValue("blue.500", "purple.500")
 
   return (
-    <Center p={5} maxW="100vw">
+    <Center py={5} maxW="90vw">
       <Box w="lg">
         <form onSubmit={handleSubmit}>
           <FormControl>
