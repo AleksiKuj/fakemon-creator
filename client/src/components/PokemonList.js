@@ -16,13 +16,14 @@ import { Link as RouterLink } from "react-router-dom"
 import Select from "react-select"
 import { sortOptions } from "../utils/selectOptions"
 
-const Buttons = ({ changePage, page }) => {
+const Buttons = ({ changePage, page, totalPages }) => {
   const buttonColorScheme = useColorModeValue("blue", "purple")
   return (
     <Flex direction="row" gap={5} py={5} justifyContent="center" align="center">
       <Button
         colorScheme={buttonColorScheme}
         onClick={() => changePage("previous")}
+        isDisabled={page === 1 ? true : false}
         w="5.5rem"
       >
         Previous
@@ -31,6 +32,7 @@ const Buttons = ({ changePage, page }) => {
       <Button
         colorScheme={buttonColorScheme}
         onClick={() => changePage("next")}
+        isDisabled={page === totalPages ? true : false}
         w="5.5rem"
       >
         Next
@@ -74,7 +76,7 @@ const PokemonList = () => {
 
   return (
     <Box py={5}>
-      <Buttons changePage={changePage} page={page} />
+      <Buttons changePage={changePage} page={page} totalPages={totalPages} />
       <Center color="black" pb={5}>
         <Select
           options={sortOptions}
@@ -114,7 +116,7 @@ const PokemonList = () => {
           ))}
         </SimpleGrid>
       )}
-      <Buttons changePage={changePage} page={page} />
+      <Buttons changePage={changePage} page={page} totalPages={totalPages} />
     </Box>
   )
 }

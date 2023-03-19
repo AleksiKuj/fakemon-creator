@@ -113,10 +113,11 @@ router.post("/", async function (req, res) {
         {
           role: "system",
           content: `Create a one sentence ability and a name for it for ${type} type pokemon ${name}.
+          If you use the word "Pokemon" in the bio replace it with "Fakémon".
           Answer in the following format. Abilityname - abilitydescription.`,
         },
       ],
-      max_tokens: 1000, //sets max length of prompt + answer based on tokens
+      max_tokens: 1500, //sets max length of prompt + answer based on tokens
       temperature: 1.0, //0-2, higher values make answers more random
     })
     const ability = abilityResponse.data.choices[0].message.content
@@ -125,7 +126,8 @@ router.post("/", async function (req, res) {
       messages: [
         {
           role: "system",
-          content: `Generate a short one sentence bio for ${type} type fake pokemon ${name}.`,
+          content: `Generate a short one sentence bio for ${type} type fake pokemon ${name}.
+          If you use the word "Pokemon" in the bio replace it with "Fakémon".`,
         },
       ],
       max_tokens: 1000, //sets max length of prompt + answer based on tokens

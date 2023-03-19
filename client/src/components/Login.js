@@ -35,6 +35,13 @@ const Login = ({ setUser, user }) => {
         window.localStorage.setItem("fakemonUser", JSON.stringify(response))
         setUser(response)
         navigate("/")
+        toast({
+          position: "top",
+          title: `Logged in as ${credentials.username}`,
+          status: "success",
+          isClosable: true,
+          duration: 3000,
+        })
       } catch (error) {
         console.log("login error", error)
         toast.closeAll()

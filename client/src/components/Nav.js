@@ -9,6 +9,7 @@ import {
   useColorModeValue,
   Stack,
   useColorMode,
+  useToast,
 } from "@chakra-ui/react"
 import { HamburgerIcon, CloseIcon, MoonIcon, SunIcon } from "@chakra-ui/icons"
 
@@ -16,6 +17,7 @@ import { Link as RouterLink, useNavigate } from "react-router-dom"
 
 const Nav = ({ user, setUser }) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const toast = useToast()
 
   const navigate = useNavigate()
   const { colorMode, toggleColorMode } = useColorMode()
@@ -27,6 +29,13 @@ const Nav = ({ user, setUser }) => {
     localStorage.removeItem("fakemonUser")
     setUser("")
     navigate("/")
+    toast({
+      position: "top",
+      title: `Logged out`,
+      status: "success",
+      isClosable: true,
+      duration: 3000,
+    })
   }
 
   return (
@@ -52,7 +61,7 @@ const Nav = ({ user, setUser }) => {
             >
               <Link
                 as={RouterLink}
-                to="/createpokemon"
+                to="/createfakemon"
                 _hover={{
                   background: hoverBg,
                 }}
@@ -127,11 +136,12 @@ const Nav = ({ user, setUser }) => {
             bg={bg}
             borderRadius="md"
             textAlign="center"
+            onClick={onClose}
           >
             <Stack as={"nav"} spacing={4}>
               <Link
                 as={RouterLink}
-                to="/createpokemon"
+                to="/createfakemon"
                 _hover={{
                   background: hoverBg,
                 }}
@@ -189,6 +199,13 @@ const Nav = ({ user, setUser }) => {
                   </Link>
                 </>
               )}
+              <IconButton
+                aria-label="Toggle darkmode"
+                icon={colorMode === "light" ? <MoonIcon /> : <SunIcon />}
+                bg="transparent"
+                color={colorMode === "light" ? "purple.500" : "blue.400"}
+                onClick={toggleColorMode}
+              />
             </Stack>
           </Box>
         ) : null}
@@ -197,71 +214,3 @@ const Nav = ({ user, setUser }) => {
   )
 }
 export default Nav
-
-// import { Center, Link, Stack, Button } from "@chakra-ui/react"
-// import { Link as RouterLink, useNavigate } from "react-router-dom"
-
-// const Nav = ({ user, setUser }) => {
-//   const navigate = useNavigate()
-
-//   const handleLogout = () => {
-//     localStorage.removeItem("fakemonUser")
-//     setUser("")
-//     navigate("/")
-//   }
-
-//   return (
-//     <Center pt={3}>
-//       <Stack direction={["column", "row"]} gap={[1, 5]} alignItems="center">
-//         <Link
-//           as={RouterLink}
-//           to="/createpokemon"
-//           _hover={{
-//             fontSize: "lg",
-//             textDecoration: "underline",
-//           }}
-//         >
-//           Create new Fakémon
-//         </Link>
-//         <Link
-//           as={RouterLink}
-//           to="/"
-//           _hover={{
-//             fontSize: "lg",
-//             textDecoration: "underline",
-//           }}
-//         >
-//           View all creations
-//         </Link>
-
-//         {user ? (
-//           <Button onClick={handleLogout}>LOGOUT</Button>
-//         ) : (
-//           <>
-//             <Link
-//               as={RouterLink}
-//               to="/login"
-//               _hover={{
-//                 fontSize: "lg",
-//                 textDecoration: "underline",
-//               }}
-//             >
-//               Login
-//             </Link>
-//             <Link
-//               as={RouterLink}
-//               to="/register"
-//               _hover={{
-//                 fontSize: "lg",
-//                 textDecoration: "underline",
-//               }}
-//             >
-//               Sign up
-//             </Link>
-//           </>
-//         )}
-//       </Stack>
-//     </Center>
-//   )
-// }
-// export default Nav

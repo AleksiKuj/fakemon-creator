@@ -4,12 +4,52 @@ import { useNavigate } from "react-router-dom"
 import userService from "../services/users"
 import UserForm from "./UserForm"
 
-const Register = () => {
+const Register = ({ setUser }) => {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
 
   const navigate = useNavigate()
   const toast = useToast()
+
+  const login = async (credentials) => {
+    try {
+      const response = await userService.login(credentials)
+      if (response === "invalid username or password") {
+        toast.closeAll()
+        toast({
+          position: "top",
+          title: `Error`,
+          description: "Invalid username or password",
+          status: "error",
+          isClosable: true,
+          duration: 3000,
+        })
+        return
+      }
+      window.localStorage.setItem("fakemonUser", JSON.stringify(response))
+      setUser(response)
+      navigate("/")
+      toast({
+        position: "top",
+        title: `Registered and logged in as ${credentials.username}`,
+        status: "success",
+        isClosable: true,
+        duration: 3000,
+      })
+    } catch (error) {
+      console.log("login error", error)
+      toast.closeAll()
+      toast({
+        position: "top",
+        title: `Error`,
+        description: "Internal server error :( Try again later",
+        status: "error",
+        isClosable: true,
+        duration: 5000,
+      })
+    }
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault()
     const credentials = {
@@ -19,7 +59,6 @@ const Register = () => {
     const register = async (credentials) => {
       try {
         const response = await userService.register(credentials)
-        console.log(response)
         if (response === "user already exists") {
           toast.closeAll()
           toast({
@@ -32,7 +71,7 @@ const Register = () => {
           })
           return
         }
-        navigate("/login")
+        login(credentials)
       } catch (error) {
         console.log("login error", error)
         toast.closeAll()
