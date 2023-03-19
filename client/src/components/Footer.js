@@ -5,7 +5,7 @@ const Footer = () => {
   const color = useColorModeValue("white", "gray.800")
   return (
     <Box bg={bg} py="5" textColor={color} textAlign="center" fontSize="sm">
-      © 2023 Aleksi Kujala. Fakémon is not affiliated with or endorsed by
+      © 2023, Aleksi Kujala. Fakémon is not affiliated with or endorsed by
       Nintendo in any way.
     </Box>
   )

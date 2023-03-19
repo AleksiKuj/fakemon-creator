@@ -137,7 +137,6 @@ const Nav = ({ user, setUser }) => {
             bg={bg}
             borderRadius="md"
             textAlign="center"
-            onClick={onClose}
           >
             <Stack as={"nav"} spacing={4}>
               <Link
@@ -204,13 +203,6 @@ const Nav = ({ user, setUser }) => {
                   </Link>
                 </>
               )}
-              <IconButton
-                aria-label="Toggle darkmode"
-                icon={colorMode === "light" ? <MoonIcon /> : <SunIcon />}
-                bg="transparent"
-                color={colorMode === "light" ? "purple.500" : "blue.400"}
-                onClick={toggleColorMode}
-              />
               <IconButton
                 aria-label="Toggle darkmode"
                 icon={colorMode === "light" ? <MoonIcon /> : <SunIcon />}
