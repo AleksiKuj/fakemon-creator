@@ -30,7 +30,8 @@ const UserForm = ({
               onChange={(e) => setUsername(e.target.value)}
               borderColor={borderColor}
             />
-
+          </FormControl>
+          <FormControl>
             <FormLabel>Password</FormLabel>
             <Input
               type="password"

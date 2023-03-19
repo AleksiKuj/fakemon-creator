@@ -12,6 +12,7 @@ import {
   Spinner,
   Stack,
   useColorModeValue,
+  Heading,
 } from "@chakra-ui/react"
 import PokemonCard from "./PokemonCard"
 
@@ -67,15 +68,16 @@ const PokemonForm = ({ setPokemon, pokemon, loading, setLoading }) => {
 
   return (
     <div>
-      <Text
+      <Heading
         fontSize="xl"
         fontWeight="semibold"
         textAlign={"center"}
         color={color}
         pb="5"
+        as="h2"
       >
         Build Your Own Fakémon
-      </Text>
+      </Heading>
       <form onSubmit={handleSubmit}>
         <Flex direction={"row"} textAlign="center" color="black">
           <Box w={"50%"}>
@@ -104,6 +106,8 @@ const PokemonForm = ({ setPokemon, pokemon, loading, setLoading }) => {
               noOptionsMessage={() => null}
               clearValueOnReset={false}
               placeholder={style ? style : "Style"}
+              name="style-select"
+              id="style-select"
             />
           </Box>
         </Flex>

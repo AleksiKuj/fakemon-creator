@@ -1,4 +1,4 @@
-import { Center, Text, Stack, useToast } from "@chakra-ui/react"
+import { Center, Text, Stack, useToast, Heading } from "@chakra-ui/react"
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import userService from "../services/users"
@@ -68,9 +68,9 @@ const Login = ({ setUser, user }) => {
   return (
     <Center py={5}>
       <Stack>
-        <Text textAlign="center" fontSize="2xl">
+        <Heading as="h2" textAlign="center" fontSize="2xl">
           Sign in
-        </Text>
+        </Heading>
         <UserForm
           handleSubmit={handleSubmit}
           username={username}
