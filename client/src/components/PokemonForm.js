@@ -43,9 +43,9 @@ const PokemonForm = ({
     }
   }, [setUser])
 
-  // useEffect(() => {
-  //   setPokemon()
-  // }, [])
+  useEffect(() => {
+    setPokemon()
+  }, [])
 
   //validate form
   useEffect(() => {
@@ -75,10 +75,10 @@ const PokemonForm = ({
     try {
       if (user) {
         const response = await pokemonService.savePokemon(pokemon, user)
-        navigate(`/pokemon/${response.id}`)
+        navigate(`/fakemon/${response.id}`)
       } else {
         const response = await pokemonService.savePokemon(pokemon)
-        navigate(`/pokemon/${response.id}`)
+        navigate(`/fakemon/${response.id}`)
       }
     } catch (error) {
       console.error(error)
@@ -144,13 +144,21 @@ const PokemonForm = ({
       </form>
       <Center>
         {loading && (
-          <Spinner
-            thickness="10px"
-            speed="0.8s"
-            emptyColor="red.600"
-            color="blue.600"
-            size="xl"
-          />
+          <>
+            <Stack alignItems="center">
+              <Spinner
+                thickness="10px"
+                speed="0.8s"
+                emptyColor="red.600"
+                color="blue.600"
+                size="xl"
+              />
+              <Text>
+                If this takes more than a minute, please refresh the page and
+                try again as the servers might be busy.
+              </Text>
+            </Stack>
+          </>
         )}
         {pokemon && !loading && (
           <Stack gap={3}>

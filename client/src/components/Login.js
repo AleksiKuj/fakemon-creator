@@ -1,4 +1,4 @@
-import { Center, Text, Stack, useToast, Heading } from "@chakra-ui/react"
+import { Center, Stack, useToast, Heading } from "@chakra-ui/react"
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import userService from "../services/users"
@@ -34,6 +34,7 @@ const Login = ({ setUser, user }) => {
         }
         window.localStorage.setItem("fakemonUser", JSON.stringify(response))
         setUser(response)
+        console.log(response)
         navigate("/")
         toast({
           position: "top",

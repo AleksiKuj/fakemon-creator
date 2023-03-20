@@ -1,4 +1,4 @@
-import { Center, Text, Stack, useToast, Heading } from "@chakra-ui/react"
+import { Center, Stack, useToast, Heading } from "@chakra-ui/react"
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import userService from "../services/users"

@@ -83,17 +83,30 @@ const Nav = ({ user, setUser }) => {
                 View all
               </Link>
               {user ? (
-                <Button
-                  onClick={handleLogout}
-                  _hover={{
-                    background: hoverBg,
-                  }}
-                  bg="transparent"
-                  p={2}
-                  borderRadius="md"
-                >
-                  Logout
-                </Button>
+                <>
+                  <Link
+                    as={RouterLink}
+                    to={`/users/${user.id}/fakemon`}
+                    _hover={{
+                      background: hoverBg,
+                    }}
+                    p={2}
+                    borderRadius="md"
+                  >
+                    My Fakémon
+                  </Link>
+                  <Button
+                    onClick={handleLogout}
+                    _hover={{
+                      background: hoverBg,
+                    }}
+                    bg="transparent"
+                    p={2}
+                    borderRadius="md"
+                  >
+                    Logout
+                  </Button>
+                </>
               ) : (
                 <>
                   <Link
@@ -164,17 +177,31 @@ const Nav = ({ user, setUser }) => {
                 View all creations
               </Link>
               {user ? (
-                <Button
-                  onClick={handleLogout}
-                  _hover={{
-                    background: hoverBg,
-                  }}
-                  bg="transparent"
-                  p={2}
-                  borderRadius="md"
-                >
-                  Logout
-                </Button>
+                <>
+                  <Link
+                    as={RouterLink}
+                    to={`/users/${user.id}/fakemon`}
+                    _hover={{
+                      background: hoverBg,
+                    }}
+                    p={2}
+                    borderRadius="md"
+                    onClick={onClose}
+                  >
+                    My Fakémon
+                  </Link>
+                  <Button
+                    onClick={handleLogout}
+                    _hover={{
+                      background: hoverBg,
+                    }}
+                    bg="transparent"
+                    p={2}
+                    borderRadius="md"
+                  >
+                    Logout
+                  </Button>
+                </>
               ) : (
                 <>
                   <Link

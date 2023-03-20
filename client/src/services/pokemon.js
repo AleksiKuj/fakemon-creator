@@ -1,7 +1,7 @@
 import axios from "axios"
 
 //"http://localhost:3001/api/pokemon"
-const baseUrl = "http://localhost:3001/api/pokemon"
+const baseUrl = "/api/pokemon"
 
 let token = null
 
@@ -36,11 +36,25 @@ const getAll = async (page, sortBy) => {
   const response = await axios.get(`${baseUrl}?page=${page}&sortBy=${sortBy}`)
   return response.data
 }
+const getAllFromUser = async (page, sortBy, userId) => {
+  const response = await axios.get(
+    `${baseUrl}/${userId}/pokemons?page=${page}&sortBy=${sortBy}`
+  )
+  return response.data
+}
 const getOne = async (id) => {
   const response = await axios.get(`${baseUrl}/${id}`)
   return response.data
 }
 
-const exports = { generatePokemon, getAll, savePokemon, getOne, setToken, like }
+const exports = {
+  generatePokemon,
+  getAll,
+  savePokemon,
+  getOne,
+  setToken,
+  like,
+  getAllFromUser,
+}
 
 export default exports

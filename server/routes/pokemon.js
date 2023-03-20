@@ -60,6 +60,47 @@ router.get("/", async (req, res) => {
   }
 })
 
+//get all by single user
+router.get("/:userId/pokemons", async (req, res) => {
+  // default to page 1 if no query parameter provided
+  const page = parseInt(req.query.page) || 1
+  // default to 10 items per page if no query parameter provided
+  const limit = parseInt(req.query.limit) || 8
+  //items before startIndex are not fetched
+  const startIndex = (page - 1) * limit
+  try {
+    let pokemon
+
+    if (req.query.sortBy === "likes") {
+      pokemon = await Pokemon.find({ user: req.params.userId })
+        .sort({ likes: -1 })
+        .skip(startIndex)
+        .limit(limit)
+    } else {
+      pokemon = await Pokemon.find({ user: req.params.userId })
+        .sort({ createdAt: -1 })
+        .skip(startIndex)
+        .limit(limit)
+    }
+
+    //Count the number of Pokemon in database created by this user
+    const totalPokemon = await Pokemon.countDocuments({
+      user: req.params.userId,
+    })
+
+    const totalPages = Math.ceil(totalPokemon / limit)
+
+    res.status(200).json({
+      pokemon,
+      page,
+      totalPages,
+    })
+  } catch (error) {
+    console.log(error)
+    res.status(400).json({ error })
+  }
+})
+
 //get one pokemon
 router.get("/:id", async (req, res) => {
   const { id } = req.params

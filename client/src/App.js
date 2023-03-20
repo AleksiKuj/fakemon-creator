@@ -7,6 +7,7 @@ import NotFound from "./components/NotFound"
 import PokemonView from "./components/PokemonView"
 import Login from "./components/Login"
 import Register from "./components/Register"
+import MyFakemon from "./components/MyFakemon"
 import { useState, useEffect } from "react"
 import pokemonService from "./services/pokemon"
 import { Container, Flex, Box, useColorModeValue } from "@chakra-ui/react"
@@ -41,7 +42,7 @@ function App() {
             <Routes>
               <Route path="/" element={<PokemonList />} />
               <Route
-                path="/pokemon/:id"
+                path="/fakemon/:id"
                 element={<PokemonView user={user} />}
               />
               <Route
@@ -57,6 +58,7 @@ function App() {
                   />
                 }
               />
+              <Route path="/users/:id/fakemon" element={<MyFakemon />} />
               <Route path="/login" element={<Login setUser={setUser} />} />
               <Route
                 path="/register"

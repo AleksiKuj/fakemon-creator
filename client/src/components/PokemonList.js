@@ -101,7 +101,7 @@ const PokemonList = () => {
           {pokemons.map((pokemon) => (
             <Link
               as={RouterLink}
-              to={`/pokemon/${pokemon.id}`}
+              to={`/fakemon/${pokemon.id}`}
               key={pokemon.id}
               px={0}
               mx={0}
