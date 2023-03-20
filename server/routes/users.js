@@ -61,4 +61,12 @@ router.post("/login", async (request, response) => {
   response.status(200).send({ token, username: user.username })
 })
 
+//get all created fakemon by user
+router.get("/:id/fakemon", async (req, response) => {
+  const userId = req.params.id
+  const user = await User.findById(userId)
+
+  response.status(200).send({ createdFakemon: user.createdFakemon })
+})
+
 module.exports = router

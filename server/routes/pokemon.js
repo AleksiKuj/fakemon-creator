@@ -160,10 +160,12 @@ router.post("/", async function (req, res) {
 })
 
 //save pokemon
-router.post("/new", async function (req, res) {
+router.post("/new", userExtractor, async function (req, res) {
   const body = req.body
   const imageUrl = body.imageUrl
   let savedImageUrl
+
+  const user = req.user
 
   try {
     await cloudinary.uploader.upload(
@@ -173,7 +175,6 @@ router.post("/new", async function (req, res) {
         if (error) {
           console.error(error)
         } else {
-          console.log(result)
           savedImageUrl = result.secure_url
         }
       }
@@ -189,8 +190,18 @@ router.post("/new", async function (req, res) {
       likes: 0,
     })
 
-    const savedPokemon = await pokemon.save()
-    res.status(200).json(savedPokemon)
+    //if user is logged in, save fakemon to users data
+    if (user) {
+      pokemon.user = user._id
+      const savedPokemon = await pokemon.save()
+
+      user.createdFakemon = user.createdFakemon.concat(savedPokemon._id)
+      await user.save()
+      res.status(200).json(savedPokemon)
+    } else {
+      const savedPokemon = await pokemon.save()
+      res.status(200).json(savedPokemon)
+    }
   } catch (error) {
     console.log(error)
     res.status(400).json({ error })

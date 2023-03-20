@@ -11,6 +11,12 @@ const userSchema = new Schema({
       ref: "Pokemon",
     },
   ],
+  createdFakemon: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Pokemon",
+    },
+  ],
 })
 
 //replaces _id object with string and removes __v from displaying

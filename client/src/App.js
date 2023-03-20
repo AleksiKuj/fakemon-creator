@@ -52,6 +52,8 @@ function App() {
                     pokemon={pokemon}
                     loading={loading}
                     setLoading={setLoading}
+                    user={user}
+                    setUser={setUser}
                   />
                 }
               />

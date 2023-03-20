@@ -16,7 +16,14 @@ import {
 } from "@chakra-ui/react"
 import PokemonCard from "./PokemonCard"
 
-const PokemonForm = ({ setPokemon, pokemon, loading, setLoading }) => {
+const PokemonForm = ({
+  setPokemon,
+  pokemon,
+  loading,
+  setLoading,
+  user,
+  setUser,
+}) => {
   const [type, setType] = useState()
   const [gen, setGen] = useState()
   const [style, setStyle] = useState()
@@ -28,8 +35,17 @@ const PokemonForm = ({ setPokemon, pokemon, loading, setLoading }) => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    setPokemon()
-  }, [])
+    const loggedUserJSON = window.localStorage.getItem("fakemonUser")
+    if (loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON)
+      setUser(user)
+      pokemonService.setToken(user.token)
+    }
+  }, [setUser])
+
+  // useEffect(() => {
+  //   setPokemon()
+  // }, [])
 
   //validate form
   useEffect(() => {
@@ -57,8 +73,13 @@ const PokemonForm = ({ setPokemon, pokemon, loading, setLoading }) => {
   const savePokemon = async () => {
     setLoading(true)
     try {
-      const response = await pokemonService.savePokemon(pokemon)
-      navigate(`/pokemon/${response.id}`)
+      if (user) {
+        const response = await pokemonService.savePokemon(pokemon, user)
+        navigate(`/pokemon/${response.id}`)
+      } else {
+        const response = await pokemonService.savePokemon(pokemon)
+        navigate(`/pokemon/${response.id}`)
+      }
     } catch (error) {
       console.error(error)
     } finally {
