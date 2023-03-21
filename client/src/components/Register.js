@@ -75,25 +75,15 @@ const Register = ({ setUser }) => {
       } catch (error) {
         console.log("login error", error)
         toast.closeAll()
-        if (error && error.response && error.response.data) {
-          toast({
-            position: "top",
-            title: `Error`,
-            description: error.response.data,
-            status: "error",
-            isClosable: true,
-            duration: 4000,
-          })
-        } else {
-          toast({
-            position: "top",
-            title: `Error`,
-            description: "Unknown error while signing up",
-            status: "error",
-            isClosable: true,
-            duration: 4000,
-          })
-        }
+
+        toast({
+          position: "top",
+          title: `Error`,
+          description: "Unknown error while signing up",
+          status: "error",
+          isClosable: true,
+          duration: 4000,
+        })
       }
     }
 

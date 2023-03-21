@@ -11,8 +11,9 @@ import {
   useColorModeValue,
   Link,
   Flex,
-  Heading,
+  useToast,
 } from "@chakra-ui/react"
+import { CopyIcon } from "@chakra-ui/icons"
 import { Link as RouterLink, useParams } from "react-router-dom"
 import Select from "react-select"
 import { sortOptions } from "../utils/selectOptions"
@@ -50,8 +51,17 @@ const MyFakemon = () => {
   const [sortBy, setSortBy] = useState("createdAt")
 
   const { id } = useParams()
-
-  const color = useColorModeValue("blue.500", "purple.300")
+  const shareButtonColor = useColorModeValue("blue", "purple")
+  const toast = useToast()
+  const handleCopy = () => {
+    navigator.clipboard.writeText(window.location.href)
+    toast({
+      title: "Link copied to clipboard.",
+      status: "success",
+      duration: 5000,
+      isClosable: true,
+    })
+  }
 
   useEffect(() => {
     setLoading(true)
@@ -91,6 +101,19 @@ const MyFakemon = () => {
         </Text>
       ) : (
         <>
+          <Center>
+            <Button
+              leftIcon={<CopyIcon />}
+              colorScheme={shareButtonColor}
+              variant="ghost"
+              _hover={{
+                bg: "rgba(0, 0, 0, 0.09)",
+              }}
+              onClick={() => handleCopy()}
+            >
+              Share profile
+            </Button>
+          </Center>
           <Buttons
             changePage={changePage}
             page={page}

@@ -42,9 +42,8 @@ const PokemonView = () => {
 
   const likeFakemon = async () => {
     try {
-      const response = await pokemonService.like(pokemon.id)
+      await pokemonService.like(pokemon.id)
       setLikes(likes + 1)
-      console.log(response)
     } catch (error) {
       console.error(error)
       if (
