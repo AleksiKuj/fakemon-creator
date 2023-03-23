@@ -1,0 +1,10 @@
+POST http://localhost:3001/api/trade
+Content-Type:application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIyIiwiaWQiOiI2NDFjOTM5NzBiZGQyZWVlNzkwNWM1NzMiLCJpYXQiOjE2Nzk1OTkyNDAsImV4cCI6MTY4MjE5MTI0MH0.GueViFlPKT7b8_m2z9nVdhh4a40ZOap2NcMuiWvLDPY
+
+{
+    "senderId" : "641c93970bdd2eee7905c573",
+    "receiverId" : "641c932b0bdd2eee7905c54f",
+    "senderFakemonId" : "641c97f600ad8cf33eab9782",
+    "receiverFakemonId" : "641c97dc00ad8cf33eab9765"
+}

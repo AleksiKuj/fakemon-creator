@@ -4,9 +4,11 @@ const mongoose = require("mongoose")
 mongoose.set("strictQuery", false)
 const cors = require("cors")
 const app = express()
+const bodyParser = require("body-parser")
 const path = require("path")
 const fakemonRouter = require("./routes/fakemon")
 const usersRouter = require("./routes/users")
+const tradeRouter = require("./routes/trade")
 const http = require("http")
 const User = require("./models/user")
 const Fakemon = require("./models/fakemon")
@@ -30,10 +32,12 @@ connect()
 
 app.use(express.json())
 app.use(cors())
+app.use(bodyParser.json())
 app.use(express.static(path.join(__dirname, "build")))
 
 app.use("/api/fakemon", fakemonRouter)
 app.use("/api/users", usersRouter)
+app.use("/api/trade", tradeRouter)
 
 app.get("/*", function (req, res) {
   res.sendFile(path.join(__dirname, "build/index.html"), function (err) {
