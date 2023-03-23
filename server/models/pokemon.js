@@ -47,6 +47,14 @@ const PokemonSchema = new mongoose.Schema(
         type: Number,
         required: true,
       },
+      intelligence: {
+        type: Number,
+        required: true,
+      },
+      aggression: {
+        type: Number,
+        required: true,
+      },
     },
     rarity: { type: String, required: true },
     likes: { type: Number, required: true },

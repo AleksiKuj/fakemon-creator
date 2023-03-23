@@ -13,6 +13,14 @@ import {
   Stack,
   useColorModeValue,
   Heading,
+  Slider,
+  SliderTrack,
+  SliderFilledTrack,
+  SliderThumb,
+  SliderMark,
+  Tooltip,
+  FormLabel,
+  Checkbox,
 } from "@chakra-ui/react"
 import PokemonCard from "./PokemonCard"
 
@@ -28,6 +36,13 @@ const PokemonForm = ({
   const [gen, setGen] = useState()
   const [style, setStyle] = useState()
   const [isValid, setIsValid] = useState(false)
+  const [intelligence, setIntelligence] = useState(50)
+  const [aggression, setAggression] = useState(50)
+
+  const [showAdvanced, setShowAdvanced] = useState(false)
+
+  const [showIntelligenceTooltip, setShowIntelligenceTooltip] = useState(false)
+  const [showAggressionTooltip, setShowAggressionTooltip] = useState(false)
 
   const color = useColorModeValue("blue.500", "purple.200")
   const buttonColorScheme = useColorModeValue("blue", "purple")
@@ -56,13 +71,26 @@ const PokemonForm = ({
     setLoading(true)
     e.preventDefault()
     try {
+      let response
       setPokemon()
-      const response = await pokemonService.generatePokemon({
-        type,
-        gen,
-        style,
-      })
+
+      //if advanced settings is on, send intelligence and aggression with request
+      showAdvanced
+        ? (response = await pokemonService.generatePokemon({
+            type,
+            gen,
+            style,
+            intelligence,
+            aggression,
+          }))
+        : (response = await pokemonService.generatePokemon({
+            type,
+            gen,
+            style,
+          }))
+
       setPokemon(response)
+      console.log(response)
     } catch (error) {
       console.log(error)
     } finally {
@@ -100,7 +128,12 @@ const PokemonForm = ({
         Build Your Own Fakémon
       </Heading>
       <form onSubmit={handleSubmit}>
-        <Flex direction={"row"} textAlign="center" color="black">
+        <Flex
+          direction={"row"}
+          textAlign="center"
+          color="black"
+          alignItems="center"
+        >
           <Box w={"50%"}>
             <Select
               options={typeOptions}
@@ -131,7 +164,107 @@ const PokemonForm = ({
               id="style-select"
             />
           </Box>
+          {/* <Box w={"20%"}>
+            <Flex direction="col">
+              <Checkbox
+                size="lg"
+                onChange={(e) => setShowAdvanced(e.target.checked)}
+              >
+                <Text>Advanced settings</Text>
+              </Checkbox>
+            </Flex>
+          </Box> */}
         </Flex>
+        <Box w={"100%"} pt={2}>
+          <Flex direction="col" justifyContent="center">
+            <Checkbox
+              size="lg"
+              onChange={(e) => setShowAdvanced(e.target.checked)}
+              colorScheme={useColorModeValue("blue", "purple")}
+              borderColor={color}
+            >
+              <Text fontSize="md">Advanced settings</Text>
+            </Checkbox>
+          </Flex>
+        </Box>
+        {showAdvanced && (
+          <Flex gap={5}>
+            {/* intelligence slider */}
+            <Box w="50%">
+              <FormLabel textAlign="center">Intelligence</FormLabel>
+              <Slider
+                id="slider"
+                defaultValue={50}
+                min={1}
+                max={100}
+                colorScheme="blue"
+                onChange={(v) => setIntelligence(v)}
+                onMouseEnter={() => setShowIntelligenceTooltip(true)}
+                onMouseLeave={() => setShowIntelligenceTooltip(false)}
+              >
+                <SliderMark value={25} mt="1" ml="-2.5" fontSize="sm">
+                  25
+                </SliderMark>
+                <SliderMark value={50} mt="1" ml="-2.5" fontSize="sm">
+                  50
+                </SliderMark>
+                <SliderMark value={75} mt="1" ml="-2.5" fontSize="sm">
+                  75
+                </SliderMark>
+                <SliderTrack>
+                  <SliderFilledTrack />
+                </SliderTrack>
+                <Tooltip
+                  hasArrow
+                  bg="teal.500"
+                  color="white"
+                  placement="top"
+                  isOpen={showIntelligenceTooltip}
+                  label={`${intelligence}`}
+                >
+                  <SliderThumb />
+                </Tooltip>
+              </Slider>
+            </Box>
+            {/* aggression slider */}
+            <Box w="50%">
+              <FormLabel textAlign="center">Aggression</FormLabel>
+              <Slider
+                id="slider"
+                defaultValue={50}
+                min={1}
+                max={100}
+                colorScheme="red"
+                onChange={(v) => setAggression(v)}
+                onMouseEnter={() => setShowAggressionTooltip(true)}
+                onMouseLeave={() => setShowAggressionTooltip(false)}
+              >
+                <SliderMark value={25} mt="1" ml="-2.5" fontSize="sm">
+                  25
+                </SliderMark>
+                <SliderMark value={50} mt="1" ml="-2.5" fontSize="sm">
+                  50
+                </SliderMark>
+                <SliderMark value={75} mt="1" ml="-2.5" fontSize="sm">
+                  75
+                </SliderMark>
+                <SliderTrack>
+                  <SliderFilledTrack />
+                </SliderTrack>
+                <Tooltip
+                  hasArrow
+                  bg="teal.500"
+                  color="white"
+                  placement="top"
+                  isOpen={showAggressionTooltip}
+                  label={`${aggression}`}
+                >
+                  <SliderThumb />
+                </Tooltip>
+              </Slider>
+            </Box>
+          </Flex>
+        )}
         <Center py="4">
           <Button
             type="submit"

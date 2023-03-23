@@ -62,7 +62,7 @@ const PokemonCard = ({ pokemon, loading }) => {
 
               <Text fontSize="sm">{pokemon.rarity && pokemon.rarity}</Text>
               <Box direction="row" w="full">
-                <Text float="right" fontSize="sm">
+                <Text float="right" fontSize="sm" letterSpacing="0px">
                   {pokemon.pokemonStats.hp}HP
                 </Text>
               </Box>

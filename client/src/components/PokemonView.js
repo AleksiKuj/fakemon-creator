@@ -225,6 +225,20 @@ const PokemonView = () => {
             value={pokemon.pokemonStats.speed}
             w="50%"
           />
+          <Text>intelligence {pokemon.pokemonStats.intelligence}</Text>
+          <Progress
+            colorScheme="teal"
+            hasStripe
+            value={pokemon.pokemonStats.intelligence}
+            w="50%"
+          />
+          <Text>aggression {pokemon.pokemonStats.aggression}</Text>
+          <Progress
+            colorScheme="red"
+            hasStripe
+            value={pokemon.pokemonStats.aggression}
+            w="50%"
+          />
         </Stack>
       </SimpleGrid>
     </Box>

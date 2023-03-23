@@ -119,6 +119,10 @@ router.post("/", async function (req, res) {
   const style = req.body.style || "3D"
   const gen = req.body.gen || "5"
 
+  const randomStat = () => Math.floor(Math.random() * 100 + 1)
+  const intelligence = req.body.intelligence || randomStat()
+  const aggression = req.body.aggression || randomStat()
+
   //common 60%, uncommon 30%, rare 10%
   let rarity
   const rand = Math.random()
@@ -130,8 +134,7 @@ router.post("/", async function (req, res) {
     rarity = "Rare"
   }
 
-  //random value between 20-100 for stats
-  const randomNumber = () => Math.floor(Math.random() * (100 - 20 + 1) + 20)
+  //random value between 1-100 for stats
 
   try {
     const nameResponse = await openai.createChatCompletion({
@@ -139,7 +142,8 @@ router.post("/", async function (req, res) {
       messages: [
         {
           role: "system",
-          content: `Generate a new one word name for pokemon that is of type ${type}.
+          content: `Generate a new one word name for pokemon that is of type ${type} 
+            who has an intelligence level of ${intelligence} and aggression level of ${aggression} (scale 1-100). 
            Do not have any other text or symbols such as "." in the answer.`,
         },
       ],
@@ -153,7 +157,8 @@ router.post("/", async function (req, res) {
       messages: [
         {
           role: "system",
-          content: `Create a one sentence ability and a name for it for ${type} type pokemon ${name}.
+          content: `Create a one sentence ability and a name for it for ${type} type pokemon ${name} 
+            who has an intelligence level of ${intelligence} and aggression level of ${aggression} (scale 1-100).
           If you use the word "Pokemon" in the bio replace it with "Fakémon".
           Answer in the following format. Abilityname - abilitydescription.`,
         },
@@ -167,7 +172,8 @@ router.post("/", async function (req, res) {
       messages: [
         {
           role: "system",
-          content: `Generate a short one sentence bio for ${type} type fake pokemon ${name}.
+          content: `Generate a short one sentence bio for ${type} type fake pokemon ${name} 
+            who has an intelligence level of ${intelligence} and aggression level of ${aggression} (scale 1-100). Do not reference the levels directly.
           If you use the word "Pokemon" in the bio replace it with "Fakémon".`,
         },
       ],
@@ -177,19 +183,22 @@ router.post("/", async function (req, res) {
     const bio = bioResponse.data.choices[0].message.content
 
     const imageResponse = await openai.createImage({
-      prompt: `${style} portrait of pokemon named ${name} in style of gen ${gen} pokemon.`,
+      prompt: `${style} portrait of pokemon named ${name} who has an intelligence level of ${intelligence} and aggression level of ${aggression} (scale 1-100)
+      , in style of gen ${gen} pokemon.`,
       n: 1,
       size: "512x512",
     })
     const imageUrl = imageResponse.data.data[0].url
 
     const pokemonStats = {
-      hp: randomNumber(),
-      attack: randomNumber(),
-      defense: randomNumber(),
-      specialAttack: randomNumber(),
-      specialDefense: randomNumber(),
-      speed: randomNumber(),
+      hp: randomStat(),
+      attack: randomStat(),
+      defense: randomStat(),
+      specialAttack: randomStat(),
+      specialDefense: randomStat(),
+      speed: randomStat(),
+      intelligence,
+      aggression,
     }
     res
       .status(200)
