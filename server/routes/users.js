@@ -61,12 +61,16 @@ router.post("/login", async (request, response) => {
   response.status(200).send({ token, username: user.username, id: user.id })
 })
 
-//get all created fakemon by user
-router.get("/:id/fakemon", async (req, response) => {
+//get badges
+router.get("/:id", async (req, response) => {
   const userId = req.params.id
-  const user = await User.findById(userId)
-
-  response.status(200).send({ createdFakemon: user.createdFakemon })
+  try {
+    const user = await User.findById(userId)
+    response.status(200).json({ username: user.username, badges: user.badges })
+  } catch (error) {
+    console.log(error)
+    response.status(404).json({ error: "User not found" })
+  }
 })
 
 module.exports = router

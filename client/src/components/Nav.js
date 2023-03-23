@@ -86,7 +86,7 @@ const Nav = ({ user, setUser }) => {
                 <>
                   <Link
                     as={RouterLink}
-                    to={`/users/${user.id}/fakemon`}
+                    to={`/users/${user.id}/profile`}
                     _hover={{
                       background: hoverBg,
                     }}
@@ -180,7 +180,7 @@ const Nav = ({ user, setUser }) => {
                 <>
                   <Link
                     as={RouterLink}
-                    to={`/users/${user.id}/fakemon`}
+                    to={`/users/${user.id}/profile`}
                     _hover={{
                       background: hoverBg,
                     }}

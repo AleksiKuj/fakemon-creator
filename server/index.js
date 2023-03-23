@@ -8,6 +8,8 @@ const path = require("path")
 const pokemonRouter = require("./routes/pokemon")
 const usersRouter = require("./routes/users")
 const http = require("http")
+const User = require("./models/user")
+const Pokemon = require("./models/pokemon")
 
 let mongoUrl
 if (process.env.NODE_ENV === "prod") {
@@ -18,6 +20,7 @@ if (process.env.NODE_ENV === "prod") {
 const connect = async () => {
   try {
     await mongoose.connect(mongoUrl)
+
     console.log("connected to MongoDB")
   } catch (error) {
     console.log(error)

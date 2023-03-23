@@ -246,6 +246,21 @@ router.post("/new", userExtractor, async function (req, res) {
       const savedPokemon = await pokemon.save()
 
       user.createdFakemon = user.createdFakemon.concat(savedPokemon._id)
+
+      // Check if the user has earned any badges for creating a new pokemon
+      if (user.createdFakemon.length === 1) {
+        user.badges.push({
+          name: "First Fakemon Created",
+        })
+      } else if (user.createdFakemon.length === 5) {
+        user.badges.push({
+          name: "5 Fakemon Created",
+        })
+      } else if (user.createdFakemon.length === 10) {
+        user.badges.push({
+          name: "10 Fakemon Created",
+        })
+      }
       await user.save()
       res.status(200).json(savedPokemon)
     } else {

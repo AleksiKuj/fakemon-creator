@@ -17,6 +17,12 @@ const userSchema = new Schema({
       ref: "Pokemon",
     },
   ],
+  badges: [
+    {
+      name: String,
+      description: String,
+    },
+  ],
 })
 
 //replaces _id object with string and removes __v from displaying
