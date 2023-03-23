@@ -8,7 +8,7 @@ export default function NotFound() {
         src={require("../images/404.png")}
         boxSize="sm"
         borderRadius="full"
-        alt="water pokemon"
+        alt="water fakemon"
       />
     </Flex>
   )

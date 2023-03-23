@@ -1,21 +1,21 @@
-import PokemonForm from "./components/PokemonForm"
+import FakemonForm from "./components/FakemonForm"
 import Header from "./components/Header"
 import Footer from "./components/Footer"
 import Nav from "./components/Nav"
-import PokemonList from "./components/PokemonList"
+import FakemonList from "./components/FakemonList"
 import NotFound from "./components/NotFound"
-import PokemonView from "./components/PokemonView"
+import FakemonView from "./components/FakemonView"
 import Login from "./components/Login"
 import Register from "./components/Register"
 import Profile from "./components/Profile"
 import { useState, useEffect } from "react"
-import pokemonService from "./services/pokemon"
+import fakemonService from "./services/fakemon"
 import { Container, Flex, Box, useColorModeValue } from "@chakra-ui/react"
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
 
 function App() {
   const [loading, setLoading] = useState(false)
-  const [pokemon, setPokemon] = useState()
+  const [fakemon, setFakemon] = useState()
   const [user, setUser] = useState("")
 
   useEffect(() => {
@@ -23,7 +23,7 @@ function App() {
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
       setUser(user)
-      pokemonService.setToken(user.token)
+      fakemonService.setToken(user.token)
     }
   }, [setUser])
 
@@ -40,17 +40,17 @@ function App() {
             <Header />
             <Nav user={user} setUser={setUser} />
             <Routes>
-              <Route path="/" element={<PokemonList />} />
+              <Route path="/" element={<FakemonList />} />
               <Route
                 path="/fakemon/:id"
-                element={<PokemonView user={user} />}
+                element={<FakemonView user={user} />}
               />
               <Route
                 path="/createfakemon"
                 element={
-                  <PokemonForm
-                    setPokemon={setPokemon}
-                    pokemon={pokemon}
+                  <FakemonForm
+                    setFakemon={setFakemon}
+                    fakemon={fakemon}
                     loading={loading}
                     setLoading={setLoading}
                     user={user}

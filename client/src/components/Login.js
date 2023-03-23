@@ -34,7 +34,6 @@ const Login = ({ setUser, user }) => {
         }
         window.localStorage.setItem("fakemonUser", JSON.stringify(response))
         setUser(response)
-        console.log(response)
         navigate("/")
         toast({
           position: "top",
@@ -44,7 +43,6 @@ const Login = ({ setUser, user }) => {
           duration: 3000,
         })
       } catch (error) {
-        console.log("login error", error)
         toast.closeAll()
         toast({
           position: "top",

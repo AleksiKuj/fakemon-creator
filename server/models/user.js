@@ -8,13 +8,13 @@ const userSchema = new Schema({
   likedFakemon: [
     {
       type: Schema.Types.ObjectId,
-      ref: "Pokemon",
+      ref: "Fakemon",
     },
   ],
   createdFakemon: [
     {
       type: Schema.Types.ObjectId,
-      ref: "Pokemon",
+      ref: "Fakemon",
     },
   ],
   badges: [

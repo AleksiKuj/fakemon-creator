@@ -1,7 +1,7 @@
 import "./cardBack.css"
 import { Text, Center, Box, Flex, useColorModeValue } from "@chakra-ui/react"
 
-const CardBack = ({ pokemon, loading }) => {
+const CardBack = ({ fakemon, loading }) => {
   const bg = useColorModeValue(
     "linear(to-b,#e5d5e5, #d5f5e3,#d5f5d5)",
     "linear(to-b,#5c258d, #4389a2,#5dffff)"
@@ -27,9 +27,9 @@ const CardBack = ({ pokemon, loading }) => {
           cursor: "pointer",
         }}
         style={
-          pokemon.rarity && pokemon.rarity === "Rare"
+          fakemon.rarity && fakemon.rarity === "Rare"
             ? rareStyle
-            : pokemon.rarity && pokemon.rarity === "Uncommon"
+            : fakemon.rarity && fakemon.rarity === "Uncommon"
             ? uncommonStyle
             : {}
         }

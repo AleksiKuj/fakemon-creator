@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
-import pokemonService from "../services/pokemon"
+import fakemonService from "../services/fakemon"
 import userService from "../services/users"
-import PokemonCard from "./PokemonCard"
+import FakemonCard from "./FakemonCard"
 import {
   Box,
   Button,
@@ -46,7 +46,7 @@ const Buttons = ({ changePage, page, totalPages }) => {
 }
 
 const MyFakemon = () => {
-  const [pokemons, setPokemons] = useState([])
+  const [fakemons, setFakemons] = useState([])
   const [page, setPage] = useState(1)
   const [totalPages, setTotalPages] = useState(1)
   const [loading, setLoading] = useState(true)
@@ -81,10 +81,10 @@ const MyFakemon = () => {
   useEffect(() => {
     setLoading(true)
 
-    const getPokemon = async () => {
+    const getFakemon = async () => {
       try {
-        const response = await pokemonService.getAllFromUser(page, sortBy, id)
-        setPokemons(response.pokemon)
+        const response = await fakemonService.getAllFromUser(page, sortBy, id)
+        setFakemons(response.fakemon)
         setTotalPages(response.totalPages)
       } catch (error) {
         console.log(error)
@@ -92,7 +92,7 @@ const MyFakemon = () => {
         setLoading(false)
       }
     }
-    getPokemon()
+    getFakemon()
 
     user
       ? (document.title = `Fakemon - ${user.username}'s profile`)
@@ -114,7 +114,7 @@ const MyFakemon = () => {
 
   return (
     <Box py={5}>
-      {pokemons.length === 0 ? (
+      {fakemons.length === 0 ? (
         <Text textAlign="center" fontSize="xl" py={5}>
           Looks like this user has no Fakémon yet :(
         </Text>
@@ -174,11 +174,11 @@ const MyFakemon = () => {
             </Center>
           ) : (
             <SimpleGrid columns={[1, 1, 2, 3, 3, 4]} spacing={5}>
-              {pokemons.map((pokemon) => (
+              {fakemons.map((fakemon) => (
                 <Link
                   as={RouterLink}
-                  to={`/fakemon/${pokemon.id}`}
-                  key={pokemon.id}
+                  to={`/fakemon/${fakemon.id}`}
+                  key={fakemon.id}
                   px={0}
                   mx={0}
                   maxW="350px"
@@ -187,7 +187,7 @@ const MyFakemon = () => {
                     textDecoration: "none",
                   }}
                 >
-                  <PokemonCard pokemon={pokemon} />
+                  <FakemonCard fakemon={fakemon} />
                 </Link>
               ))}
             </SimpleGrid>
