@@ -10,8 +10,10 @@ import Register from "./components/Register"
 import Profile from "./components/Profile"
 import { useState, useEffect } from "react"
 import fakemonService from "./services/fakemon"
+import tradeService from "./services/trade"
 import { Container, Flex, Box, useColorModeValue } from "@chakra-ui/react"
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
+import TradeOffers from "./components/TradeOffers"
 
 function App() {
   const [loading, setLoading] = useState(false)
@@ -24,6 +26,7 @@ function App() {
       const user = JSON.parse(loggedUserJSON)
       setUser(user)
       fakemonService.setToken(user.token)
+      tradeService.setToken(user.token)
     }
   }, [setUser])
 
@@ -63,6 +66,10 @@ function App() {
               <Route
                 path="/register"
                 element={<Register setUser={setUser} />}
+              />
+              <Route
+                path="/tradeoffers"
+                element={<TradeOffers user={user} />}
               />
               <Route path="*" element={<NotFound />} />
             </Routes>

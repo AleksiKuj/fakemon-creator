@@ -159,7 +159,7 @@ const FakemonView = () => {
               ) : (
                 <>
                   {/* OPEN TRADE SCREEN */}
-                  {user.id !== fakemon.user[0] && (
+                  {user.id !== fakemon.user[0] && fakemon.user[0] && (
                     <TradeScreen fakemon={fakemon} user={user} />
                   )}
                   <Button

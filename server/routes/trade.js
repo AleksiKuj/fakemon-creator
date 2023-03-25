@@ -4,6 +4,26 @@ const TradeRequest = require("../models/tradeRequest")
 const Fakemon = require("../models/fakemon")
 const { userExtractor } = require("../utils/middleware")
 
+//get all users trade offers
+router.get("/:userId/tradeoffers", userExtractor, async (req, res) => {
+  const user = req.user
+  const userId = user.id
+
+  if (!userId) {
+    return res.status(400).json({ message: "Missing user id" })
+  }
+
+  try {
+    const tradeOffers = await TradeRequest.find({ sender: userId }).exec()
+
+    res.status(200).json(tradeOffers)
+  } catch (err) {
+    console.error(err)
+    res.status(500).json({ message: "Internal server error" })
+  }
+})
+
+//send trade offer
 router.post("/", userExtractor, async (req, res) => {
   const { receiverId, senderFakemonId, receiverFakemonId } = req.body
   const user = req.user
@@ -39,7 +59,16 @@ router.post("/", userExtractor, async (req, res) => {
   }
 
   try {
-    // Check if there's a pending trade request from the receiver to the sender with the same Fakemons
+    const existingFakemonTradeOffer = await TradeRequest.findOne({
+      $or: [{ senderFakemon: senderFakemonId, status: "pending" }],
+    })
+    if (existingFakemonTradeOffer) {
+      return res.status(400).json({
+        message: "You can only have one active trade offer per Fakemon.",
+      })
+    }
+
+    //Check if there's a pending trade request from the receiver to the sender with the same Fakemons
     const existingRequest = await TradeRequest.findOne({
       sender: receiverId,
       receiver: senderId,
@@ -47,7 +76,6 @@ router.post("/", userExtractor, async (req, res) => {
       receiverFakemon: senderFakemonId,
       status: "pending",
     })
-
     if (existingRequest) {
       // Execute the trade and remove the trade request
       await executeTrade(

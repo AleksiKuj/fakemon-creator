@@ -128,13 +128,28 @@ const TradeScreen = ({ fakemon, user }) => {
       }
       onClose()
     } catch (error) {
-      toast({
-        position: "top",
-        description: "Error sending trade offer :(",
-        status: "error",
-        isClosable: true,
-        duration: 3000,
-      })
+      console.log(error)
+      toast.closeAll()
+      if (
+        error.response.data.message ===
+        "You can only have one active trade offer per Fakemon."
+      ) {
+        toast({
+          position: "top",
+          description: error.response.data.message,
+          status: "error",
+          isClosable: true,
+          duration: 3000,
+        })
+      } else {
+        toast({
+          position: "top",
+          description: "Error sending trade offer :(",
+          status: "error",
+          isClosable: true,
+          duration: 3000,
+        })
+      }
     }
   }
 

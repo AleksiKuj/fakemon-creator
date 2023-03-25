@@ -1,7 +1,7 @@
 import axios from "axios"
 
 //"http://localhost:3001/api/users"
-const baseUrl = "/api/trade"
+const baseUrl = "http://localhost:3001/api/trade"
 
 let token = null
 
@@ -18,6 +18,14 @@ const trade = async (details) => {
   return response.data
 }
 
-const exports = { trade, setToken }
+const getTradeOffers = async (userId) => {
+  const config = {
+    headers: { Authorization: token },
+  }
+
+  const response = await axios.get(`${baseUrl}/${userId}/tradeoffers`, config)
+  return response.data
+}
+const exports = { trade, setToken, getTradeOffers }
 
 export default exports

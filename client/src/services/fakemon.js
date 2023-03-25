@@ -1,7 +1,7 @@
 import axios from "axios"
 
 //"http://localhost:3001/api/fakemon"
-const baseUrl = "/api/fakemon"
+const baseUrl = "http://localhost:3001/api/fakemon"
 
 let token = null
 
