@@ -2,7 +2,7 @@ import "./fakemonCard.css"
 import { gradientColors } from "../utils/selectOptions"
 import { Spinner, Center, Box, Stack, Text, Flex } from "@chakra-ui/react"
 
-const FakemonCard = ({ fakemon, loading }) => {
+const FakemonCard = ({ fakemon, loading, thumbnail }) => {
   const ability = {
     name: fakemon.ability.slice(0, fakemon.ability.indexOf("-")),
     description: fakemon.ability.slice(fakemon.ability.indexOf("-") + 1),
@@ -19,6 +19,50 @@ const FakemonCard = ({ fakemon, loading }) => {
     MozBoxShadow: "0px 0px 70px -5px rgba(229,232,178,1)",
   }
 
+  if (thumbnail) {
+    return (
+      <Center w={["150px", "150px"]} h={["150px", "150px"]} margin="auto">
+        <Box
+          className="thumbnail-fakemon-card"
+          bg="transparent"
+          _hover={{
+            boxShadow: "dark-lg",
+          }}
+          style={
+            fakemon.rarity && fakemon.rarity === "Rare"
+              ? rareStyle
+              : fakemon.rarity && fakemon.rarity === "Uncommon"
+              ? uncommonStyle
+              : {}
+          }
+        >
+          <div>
+            <Stack
+              direction="row"
+              textAlign="center"
+              alignItems="center"
+              textTransform="uppercase"
+            >
+              <Text className="thumbnail-fakemon-name">{fakemon.name} </Text>
+
+              <img
+                className="type-icon"
+                src={require(`../images/${fakemon.type}.png`)}
+                alt={fakemon.type}
+                width="15px"
+              />
+            </Stack>
+          </div>
+
+          <img
+            className="thumbnail-fakemon-image"
+            src={fakemon.imageUrl}
+            alt={fakemon.name}
+          />
+        </Box>
+      </Center>
+    )
+  }
   return (
     <Center w={["330px"]} margin="auto" color="black">
       {loading ? (

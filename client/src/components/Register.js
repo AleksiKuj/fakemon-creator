@@ -37,7 +37,6 @@ const Register = ({ setUser }) => {
         duration: 3000,
       })
     } catch (error) {
-      console.log("login error", error)
       toast.closeAll()
       toast({
         position: "top",
@@ -73,9 +72,7 @@ const Register = ({ setUser }) => {
         }
         login(credentials)
       } catch (error) {
-        console.log("login error", error)
         toast.closeAll()
-
         toast({
           position: "top",
           title: `Error`,

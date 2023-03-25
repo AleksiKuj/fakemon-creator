@@ -8,6 +8,13 @@
   transition: box-shadow 0.3s ease-in-out;
   transition: all 0.1s ease-in-out;
 }
+.thumbnail-fakemon-card {
+  width: 150px;
+  height: 150px;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+}
 .fakemon-card:hover {
   box-shadow: 0 0 10px rgba(255, 255, 255, 0.5) !important;
   width: 330px !important;
@@ -17,6 +24,10 @@
   width: 100%;
   height: 60%;
   padding-bottom: 2px;
+}
+.thumbnail-fakemon-image {
+  width: 100%;
+  height: 100%;
 }
 .type-icon {
   float: right;
@@ -40,7 +51,12 @@
 .fakemon-name {
   font-size: 18px;
   letter-spacing: 0px;
-
+  margin: 0;
+  float: left;
+}
+.thumbnail-fakemon-name {
+  font-size: 13px;
+  letter-spacing: 0px;
   margin: 0;
   float: left;
 }

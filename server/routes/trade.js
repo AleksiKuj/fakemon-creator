@@ -11,14 +11,22 @@ router.post("/", userExtractor, async (req, res) => {
   if (!user) {
     return res.status(400).json({ message: "unauthorized" })
   }
+
   const senderId = user.id
-  console.log(senderId)
+  console.log(senderId, receiverId, senderFakemonId, receiverFakemonId)
+
   if (!senderId || !receiverId || !senderFakemonId || !receiverFakemonId) {
     return res.status(400).json({ message: "Missing required fields" })
   }
 
-  const sender = await User.findById(senderId).exec()
-  const receiver = await User.findById(receiverId).exec()
+  let sender
+  let receiver
+  try {
+    sender = await User.findById(senderId).exec()
+    receiver = await User.findById(receiverId).exec()
+  } catch (error) {
+    return res.status(404).json({ message: "User not found" })
+  }
 
   //make sure they actually own the pokemon
   if (

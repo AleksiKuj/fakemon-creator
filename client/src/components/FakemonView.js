@@ -2,6 +2,7 @@ import FakemonCard from "./FakemonCard"
 import { useState, useEffect } from "react"
 import { useParams } from "react-router-dom"
 import fakemonService from "../services/fakemon"
+import tradeService from "../services/trade"
 import CardBack from "./CardBack"
 import {
   Box,
@@ -19,6 +20,7 @@ import {
 import { CopyIcon } from "@chakra-ui/icons"
 import { FaRegThumbsUp } from "react-icons/fa"
 import ReactCardFlip from "react-card-flip"
+import TradeScreen from "./TradeScreen"
 
 const FakemonView = () => {
   const [fakemon, setFakemon] = useState()
@@ -36,6 +38,7 @@ const FakemonView = () => {
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
       setUser(user)
+      tradeService.setToken(user.token)
       fakemonService.setToken(user.token)
     }
   }, [setUser])
@@ -154,20 +157,27 @@ const FakemonView = () => {
                   </Button>
                 </Tooltip>
               ) : (
-                <Button
-                  leftIcon={<FaRegThumbsUp />}
-                  colorScheme={buttonColorScheme}
-                  variant="solid"
-                  onClick={() => likeFakemon()}
-                >
-                  Like
-                </Button>
+                <>
+                  {/* OPEN TRADE SCREEN */}
+                  {user.id !== fakemon.user[0] && (
+                    <TradeScreen fakemon={fakemon} user={user} />
+                  )}
+                  <Button
+                    leftIcon={<FaRegThumbsUp />}
+                    colorScheme={buttonColorScheme}
+                    variant="solid"
+                    onClick={() => likeFakemon()}
+                  >
+                    Like
+                  </Button>
+                </>
               )}
 
               <Text>{likes}</Text>
             </Stack>
           </Center>
         </Box>
+
         <Stack
           textTransform="uppercase"
           fontWeight="bold"
