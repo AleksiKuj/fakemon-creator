@@ -95,6 +95,17 @@ const Nav = ({ user, setUser }) => {
                   >
                     My Fakémon
                   </Link>
+                  <Link
+                    as={RouterLink}
+                    to={`/tradeoffers`}
+                    _hover={{
+                      background: hoverBg,
+                    }}
+                    p={2}
+                    borderRadius="md"
+                  >
+                    Trade offers
+                  </Link>
                   <Button
                     onClick={handleLogout}
                     _hover={{

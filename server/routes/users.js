@@ -38,15 +38,15 @@ router.post("/register", validateUser, async (request, response) => {
 })
 
 //login
-router.post("/login", async (request, response) => {
-  const { username, password } = request.body
+router.post("/login", async (req, res) => {
+  const { username, password } = req.body
 
   const user = await User.findOne({ username })
   const passwordCorrect =
     user === null ? false : await bcrypt.compare(password, user.passwordHash)
 
   if (!(user && passwordCorrect)) {
-    return response.json("invalid username or password")
+    return res.json("invalid username or password")
   }
 
   const userForToken = {
@@ -58,18 +58,18 @@ router.post("/login", async (request, response) => {
   const token = jwt.sign(userForToken, process.env.SECRET, {
     expiresIn: "30 days",
   })
-  response.status(200).send({ token, username: user.username, id: user.id })
+  res.status(200).send({ token, username: user.username, id: user.id })
 })
 
 //get badges
-router.get("/:id", async (req, response) => {
+router.get("/:id", async (req, res) => {
   const userId = req.params.id
   try {
     const user = await User.findById(userId)
-    response.status(200).json({ username: user.username, badges: user.badges })
+    res.status(200).json({ username: user.username, badges: user.badges })
   } catch (error) {
     console.log(error)
-    response.status(404).json({ error: "User not found" })
+    res.status(404).json({ error: "User not found" })
   }
 })
 

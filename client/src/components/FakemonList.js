@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import fakemonService from "../services/fakemon"
-import FakemonCard from "./FakemonCard"
+import FakemonCard from "./card/FakemonCard"
 import {
   Box,
   Button,

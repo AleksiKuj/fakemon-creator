@@ -1,9 +1,8 @@
-import FakemonCard from "./FakemonCard"
+import FakemonCard from "./card/FakemonCard"
 import { useState, useEffect } from "react"
 import { useParams } from "react-router-dom"
 import fakemonService from "../services/fakemon"
-import tradeService from "../services/trade"
-import CardBack from "./CardBack"
+import CardBack from "./card/CardBack"
 import {
   Box,
   Center,
@@ -20,28 +19,17 @@ import {
 import { CopyIcon } from "@chakra-ui/icons"
 import { FaRegThumbsUp } from "react-icons/fa"
 import ReactCardFlip from "react-card-flip"
-import TradeScreen from "./TradeScreen"
+import TradeScreen from "./trade/TradeScreen"
 
-const FakemonView = () => {
+const FakemonView = ({ user }) => {
   const [fakemon, setFakemon] = useState()
   const [likes, setLikes] = useState(0)
   const [isFlipped, setIsFlipped] = useState(true)
   const { id } = useParams()
   const toast = useToast()
-  const [user, setUser] = useState("")
   const [loading, setLoading] = useState(true)
 
   const buttonColorScheme = useColorModeValue("blue", "purple")
-
-  useEffect(() => {
-    const loggedUserJSON = window.localStorage.getItem("fakemonUser")
-    if (loggedUserJSON) {
-      const user = JSON.parse(loggedUserJSON)
-      setUser(user)
-      tradeService.setToken(user.token)
-      fakemonService.setToken(user.token)
-    }
-  }, [setUser])
 
   const likeFakemon = async () => {
     try {

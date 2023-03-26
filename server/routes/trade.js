@@ -103,12 +103,12 @@ router.post("/", userExtractor, async (req, res) => {
   }
 })
 
-async function executeTrade(
+const executeTrade = async (
   senderId,
   receiverId,
   senderFakemonId,
   receiverFakemonId
-) {
+) => {
   const sender = await User.findById(senderId).exec()
   const receiver = await User.findById(receiverId).exec()
   const senderFakemon = await Fakemon.findById(senderFakemonId).exec()
@@ -130,4 +130,38 @@ async function executeTrade(
   await receiverFakemon.save()
 }
 
+router.delete("/:tradeOfferId", userExtractor, async (req, res) => {
+  const { tradeOfferId } = req.params
+  console.log(tradeOfferId)
+  const user = req.user
+
+  if (!tradeOfferId) {
+    return res
+      .status(400)
+      .json({ message: "Missing required field: tradeOfferId" })
+  }
+
+  if (!user) {
+    return res.status(400).json({ message: "Unauthorized" })
+  }
+
+  try {
+    const tradeOffer = await TradeRequest.findById(tradeOfferId)
+
+    const senderIdString = tradeOffer.sender.toString()
+
+    if (senderIdString !== user.id) {
+      return res.status(400).json({ message: "Unauthorized" })
+    }
+    if (!tradeOffer) {
+      return res.status(404).json({ message: "Trade offer not found" })
+    }
+
+    await tradeOffer.deleteOne()
+    res.status(200).json({ message: "Trade offer deleted successfully" })
+  } catch (err) {
+    console.error(err)
+    res.status(500).json({ message: "Internal server error" })
+  }
+})
 module.exports = router

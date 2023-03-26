@@ -1,7 +1,7 @@
 import axios from "axios"
 
 //"http://localhost:3001/api/users"
-const baseUrl = "http://localhost:3001/api/trade"
+const baseUrl = "/api/trade"
 
 let token = null
 
@@ -26,6 +26,14 @@ const getTradeOffers = async (userId) => {
   const response = await axios.get(`${baseUrl}/${userId}/tradeoffers`, config)
   return response.data
 }
-const exports = { trade, setToken, getTradeOffers }
+
+const deleteTradeOffer = async (tradeOfferId) => {
+  const config = {
+    headers: { Authorization: token },
+  }
+  const response = await axios.delete(`${baseUrl}/${tradeOfferId}`, config)
+  return response.data
+}
+const exports = { trade, setToken, getTradeOffers, deleteTradeOffer }
 
 export default exports

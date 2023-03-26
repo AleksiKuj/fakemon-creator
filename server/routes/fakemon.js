@@ -114,7 +114,7 @@ router.get("/:id", async (req, res) => {
 })
 
 //generate random fakemon
-router.post("/", async function (req, res) {
+router.post("/", async (req, res) => {
   const type = req.body.type || "Water"
   const style = req.body.style || "3D"
   const gen = req.body.gen || "5"
@@ -208,7 +208,7 @@ router.post("/", async function (req, res) {
 })
 
 //save fakemon
-router.post("/new", userExtractor, async function (req, res) {
+router.post("/new", userExtractor, async (req, res) => {
   const body = req.body
   const imageUrl = body.imageUrl
   let savedImageUrl
@@ -272,7 +272,7 @@ router.post("/new", userExtractor, async function (req, res) {
 })
 
 // like
-router.put("/:id/like", userExtractor, async function (req, res) {
+router.put("/:id/like", userExtractor, async (req, res) => {
   const id = req.params.id
 
   try {

@@ -22,7 +22,7 @@ import {
   FormLabel,
   Checkbox,
 } from "@chakra-ui/react"
-import FakemonCard from "./FakemonCard"
+import FakemonCard from "./card/FakemonCard"
 
 const FakemonForm = ({
   setFakemon,
