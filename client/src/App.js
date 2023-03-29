@@ -19,7 +19,7 @@ function App() {
   const [loading, setLoading] = useState(false)
   const [fakemon, setFakemon] = useState()
   const [user, setUser] = useState("")
-
+console.log(process.env.REACT_APP_ENV)
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem("fakemonUser")
     if (loggedUserJSON) {

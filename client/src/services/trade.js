@@ -1,7 +1,8 @@
 import axios from "axios"
 
-//"http://localhost:3001/api/users"
-const baseUrl = "/api/trade"
+let baseUrl
+if(process.env.REACT_APP_ENV === "development") baseUrl = "http://localhost:3001/api/trade"
+if(process.env.REACT_APP_ENV === "production") baseUrl = "/api/trade"
 
 let token = null
 

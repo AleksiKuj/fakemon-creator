@@ -15,7 +15,7 @@ import { useEffect, useState } from "react"
 import fakemonService from "../../services/fakemon"
 import tradeService from "../../services/trade"
 import FakemonCard from "../card/FakemonCard"
-import { ArrowRightIcon } from "@chakra-ui/icons"
+import { ArrowRightIcon,DeleteIcon } from "@chakra-ui/icons"
 
 const TradeOffer = ({
   tradeOffer,
@@ -81,7 +81,7 @@ const TradeOffer = ({
         <ArrowRightIcon />
         <FakemonCard fakemon={receiverFakemon} thumbnail />
       </Flex>
-      <Button onClick={onOpen} colorScheme="red">
+      <Button leftIcon={<DeleteIcon/>} onClick={onOpen} colorScheme="red">
         Delete
       </Button>
 
@@ -100,7 +100,7 @@ const TradeOffer = ({
               >
                 Cancel
               </Button>
-              <Button variant="solid" colorScheme="red" onClick={deleteOffer}>
+              <Button leftIcon={<DeleteIcon/>} variant="solid" colorScheme="red" onClick={deleteOffer}>
                 Delete
               </Button>
             </Stack>

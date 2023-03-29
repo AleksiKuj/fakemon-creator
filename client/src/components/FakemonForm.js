@@ -133,8 +133,9 @@ const FakemonForm = ({
           textAlign="center"
           color="black"
           alignItems="center"
+         
         >
-          <Box w={"50%"}>
+          <Box w={"50%"}  zIndex="dropdown">
             <Select
               options={typeOptions}
               onChange={(e) => setType(e.value)}
@@ -142,24 +143,27 @@ const FakemonForm = ({
               clearValueOnReset={false}
               placeholder={type ? type : "Type"}
               required
+              isSearchable={false}
             />
           </Box>
-          <Box w={"50%"}>
+          <Box w={"50%"}  zIndex="dropdown">
             <Select
               options={genOptions}
               onChange={(e) => setGen(e.value)}
               noOptionsMessage={() => null}
               clearValueOnReset={false}
               placeholder={gen ? gen : "Gen"}
+              isSearchable={false}
             />
           </Box>
-          <Box w={"50%"}>
+          <Box w={"50%"}  zIndex="dropdown">
             <Select
               options={styleOptions}
               onChange={(e) => setStyle(e.value)}
               noOptionsMessage={() => null}
               clearValueOnReset={false}
               placeholder={style ? style : "Style"}
+              isSearchable={false}
               name="style-select"
               id="style-select"
             />
