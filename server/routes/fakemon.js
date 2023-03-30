@@ -126,12 +126,14 @@ router.post("/", async (req, res) => {
   //common 60%, uncommon 30%, rare 10%
   let rarity
   const rand = Math.random()
-  if (rand < 0.6) {
+  if (rand < 0.5) {
     rarity = "Common"
-  } else if (rand < 0.9) {
+  } else if (rand < 0.8) {
     rarity = "Uncommon"
-  } else {
+  } else if (rand< 0.95){
     rarity = "Rare"
+  } else{
+    rarity = "Legendary"
   }
 
   //random value between 1-100 for stats
@@ -142,13 +144,13 @@ router.post("/", async (req, res) => {
       messages: [
         {
           role: "system",
-          content: `Generate a new one word name for fakemon that is of type ${type} 
+          content: `Generate a new one word name for a ${rarity} fakemon that is of type ${type} 
             who has an intelligence level of ${intelligence} and aggression level of ${aggression} (scale 1-100). 
            Do not have any other text or symbols such as "." in the answer.`,
         },
       ],
       max_tokens: 300, //sets max length of prompt + answer based on tokens
-      temperature: 1.0, //0-2, higher values make answers more random
+      temperature: 1.5, //0-2, higher values make answers more random
     })
     const name = nameResponse.data.choices[0].message.content
 
@@ -157,14 +159,14 @@ router.post("/", async (req, res) => {
       messages: [
         {
           role: "system",
-          content: `Create a one sentence ability and a name for it for ${type} type fakemon ${name} 
+          content: `Create a short one sentence ability and a name for it for ${type} type fakemon ${name} 
             who has an intelligence level of ${intelligence} and aggression level of ${aggression} (scale 1-100).
           If you use the word "Fakemon" in the bio replace it with "Fakémon".
           Answer in the following format. Abilityname - abilitydescription.`,
         },
       ],
       max_tokens: 1500, //sets max length of prompt + answer based on tokens
-      temperature: 1.0, //0-2, higher values make answers more random
+      temperature: 1.5, //0-2, higher values make answers more random
     })
     const ability = abilityResponse.data.choices[0].message.content
     const bioResponse = await openai.createChatCompletion({
@@ -172,19 +174,19 @@ router.post("/", async (req, res) => {
       messages: [
         {
           role: "system",
-          content: `Generate a short one sentence bio for ${type} type fake fakemon ${name} 
+          content: `Generate a short one sentence bio for a ${rarity} ${type} type fake fakemon ${name} 
             who has an intelligence level of ${intelligence} and aggression level of ${aggression} (scale 1-100). Do not reference the levels directly.
           If you use the word "Fakemon" in the bio replace it with "Fakémon".`,
         },
       ],
       max_tokens: 1000, //sets max length of prompt + answer based on tokens
-      temperature: 1.0, //0-2, higher values make answers more random
+      temperature: 1.5, //0-2, higher values make answers more random
     })
     const bio = bioResponse.data.choices[0].message.content
 
     const imageResponse = await openai.createImage({
-      prompt: `${style} portrait of fakemon named ${name} who has an intelligence level of ${intelligence} and aggression level of ${aggression} (scale 1-100)
-      , in style of gen ${gen} fakemon.`,
+      prompt: `${style} portrait of ${rarity} pokemon named ${name} who has an intelligence level of ${intelligence} and aggression level of ${aggression} (scale 1-100)
+      , in style of gen ${gen} pokemon`,
       n: 1,
       size: "512x512",
     })

@@ -8,6 +8,11 @@ const FakemonCard = ({ fakemon, loading, thumbnail }) => {
     description: fakemon.ability.slice(fakemon.ability.indexOf("-") + 1),
   }
 
+  const legendaryStyle = {
+    boxShadow: `0px 2px 150px 8px rgba(202, 209, 77, 1.2)`,
+  WebkitBoxShadow: "0px 2px 150px 8px rgba(202, 209, 77, 1.2)",
+  MozBoxShadow: "0px 2px 150px 8px rgba(202, 209, 77, 1.2)",
+  }
   const rareStyle = {
     boxShadow: `0px 1px 109px 4px rgba(202,209,77,1)`,
     WebkitBoxShadow: "0px 1px 109px 4px rgba(202,209,77,1)",
@@ -19,6 +24,16 @@ const FakemonCard = ({ fakemon, loading, thumbnail }) => {
     MozBoxShadow: "0px 0px 70px -5px rgba(229,232,178,1)",
   }
 
+  const style = (rarity)=>{
+    if(rarity === "Uncommon"){
+      return uncommonStyle
+    } else if (rarity === "Rare"){
+      return rareStyle 
+    } else if (rarity === "Legendary"){
+      return legendaryStyle
+    } 
+  }
+
   if (thumbnail) {
     return (
       <Center w={["150px", "150px"]} h={["150px", "150px"]} margin="auto">
@@ -28,13 +43,7 @@ const FakemonCard = ({ fakemon, loading, thumbnail }) => {
           _hover={{
             boxShadow: "dark-lg",
           }}
-          style={
-            fakemon.rarity && fakemon.rarity === "Rare"
-              ? rareStyle
-              : fakemon.rarity && fakemon.rarity === "Uncommon"
-              ? uncommonStyle
-              : {}
-          }
+          style={style(fakemon.rarity)}
         >
           <div>
             <Stack
@@ -80,13 +89,7 @@ const FakemonCard = ({ fakemon, loading, thumbnail }) => {
           _hover={{
             boxShadow: "dark-lg",
           }}
-          style={
-            fakemon.rarity && fakemon.rarity === "Rare"
-              ? rareStyle
-              : fakemon.rarity && fakemon.rarity === "Uncommon"
-              ? uncommonStyle
-              : {}
-          }
+          style={style(fakemon.rarity)}
         >
           <div>
             <Stack
