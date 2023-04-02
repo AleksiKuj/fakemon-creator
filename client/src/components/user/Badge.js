@@ -9,8 +9,8 @@ const Badge = ({ name }) => {
     <Tooltip label={`${name}`} isOpen={isLabelOpen} >
       <span>
         <Icon as={AiOutlineTrophy} color={trophyColor} boxSize={10} onMouseEnter={() => setIsLabelOpen(true)}
-                onMouseLeave={() => setIsLabelOpen(false)}
-                onClick={() => setIsLabelOpen(!isLabelOpen)} />
+          onMouseLeave={() => setIsLabelOpen(false)}
+          onClick={() => setIsLabelOpen(!isLabelOpen)} />
       </span>
     </Tooltip>
   )

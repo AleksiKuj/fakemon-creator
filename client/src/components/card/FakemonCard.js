@@ -9,17 +9,17 @@ const FakemonCard = ({ fakemon, loading, thumbnail }) => {
   }
 
   const legendaryStyle = {
-    boxShadow: `0px 2px 150px 8px rgba(202, 209, 77, 1.2)`,
-  WebkitBoxShadow: "0px 2px 150px 8px rgba(202, 209, 77, 1.2)",
-  MozBoxShadow: "0px 2px 150px 8px rgba(202, 209, 77, 1.2)",
+    boxShadow: "0px 2px 150px 8px rgba(202, 209, 77, 1.2)",
+    WebkitBoxShadow: "0px 2px 150px 8px rgba(202, 209, 77, 1.2)",
+    MozBoxShadow: "0px 2px 150px 8px rgba(202, 209, 77, 1.2)",
   }
   const rareStyle = {
-    boxShadow: `0px 1px 109px 4px rgba(202,209,77,1)`,
+    boxShadow: "0px 1px 109px 4px rgba(202,209,77,1)",
     WebkitBoxShadow: "0px 1px 109px 4px rgba(202,209,77,1)",
     MozBoxShadow: "0px 1px 109px 4px rgba(202,209,77,1)",
   }
   const uncommonStyle = {
-    boxShadow: `0px 0px 70px -5px rgba(229,232,178,1)`,
+    boxShadow: "0px 0px 70px -5px rgba(229,232,178,1)",
     WebkitBoxShadow: "0px 0px 70px -5px rgba(229,232,178,1)",
     MozBoxShadow: "0px 0px 70px -5px rgba(229,232,178,1)",
   }

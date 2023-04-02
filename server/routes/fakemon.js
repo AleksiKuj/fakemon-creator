@@ -118,15 +118,11 @@ router.post("/", async (req, res) => {
   const type = req.body.type || "Water"
   const style = req.body.style || "3D"
   const gen = req.body.gen || "5"
+ 
 
-  //random value between 1-100 for stats
-  const randomStat = () => Math.floor(Math.random() * 100 + 1)
-  const intelligence = req.body.intelligence || randomStat()
-  const aggression = req.body.aggression || randomStat()
-
-  //common 60%, uncommon 30%, rare 10%
-  let rarity
+  let rarity 
   const rand = Math.random()
+  //common 50%, uncommon 30%, rare 15%, legendary 5%
   if (rand < 0.5) {
     rarity = "Common"
   } else if (rand < 0.8) {
@@ -137,6 +133,17 @@ router.post("/", async (req, res) => {
     rarity = "Legendary"
   }
  
+  //minimum value for stats, eg. Legendary stats always >= 75
+  const rarityMultiplier = {
+    Common: 0,
+    Uncommon: 25,
+    Rare: 50,
+    Legendary: 75,
+  }
+
+  const randomStat = (multiplier) => Math.floor(Math.random() * (100 - multiplier) + multiplier + 1)
+  const rarityBasedMultiplier = rarityMultiplier[rarity]
+
   // used for intelligence and aggression levels in ai prompts
   const tier = (stat, string)=>{
     if (stat <= 25){
@@ -152,8 +159,19 @@ router.post("/", async (req, res) => {
       return `extremely high ${string}`
     }
   }
+  const intelligence = req.body.intelligence || randomStat(rarityBasedMultiplier)
+  const aggression = req.body.aggression || randomStat(rarityBasedMultiplier)
 
-  
+  const stats = {
+    hp: randomStat(rarityBasedMultiplier),
+    attack: randomStat(rarityBasedMultiplier),
+    defense: randomStat(rarityBasedMultiplier),
+    specialAttack: randomStat(rarityBasedMultiplier),
+    specialDefense: randomStat(rarityBasedMultiplier),
+    speed: randomStat(rarityBasedMultiplier),
+    intelligence,
+    aggression
+  }
 
   try {
     const nameResponse = await openai.createChatCompletion({
@@ -202,23 +220,12 @@ router.post("/", async (req, res) => {
     const bio = bioResponse.data.choices[0].message.content
 
     const imageResponse = await openai.createImage({
-      prompt: `${style} portrait of ${rarity} pokemon named ${name} who has ${tier(intelligence,"intelligence")} and ${tier(aggression,"aggression")}
+      prompt: `${style} portrait of ${rarity} ${type} type pokemon named ${name} who has ${tier(intelligence,"intelligence")} and ${tier(aggression,"aggression")}
       , in style of gen ${gen} pokemon`,
       n: 1,
       size: "512x512",
     })
     const imageUrl = imageResponse.data.data[0].url
-
-    const stats = {
-      hp: randomStat(),
-      attack: randomStat(),
-      defense: randomStat(),
-      specialAttack: randomStat(),
-      specialDefense: randomStat(),
-      speed: randomStat(),
-      intelligence,
-      aggression,
-    }
 
     res.status(200).json({ name, ability, bio, imageUrl, type, stats, rarity })
   } catch (error) {

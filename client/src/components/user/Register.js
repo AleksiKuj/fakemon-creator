@@ -18,7 +18,7 @@ const Register = ({ setUser }) => {
         toast.closeAll()
         toast({
           position: "top",
-          title: `Error`,
+          title: "Error",
           description: "Invalid username or password",
           status: "error",
           isClosable: true,
@@ -40,7 +40,7 @@ const Register = ({ setUser }) => {
       toast.closeAll()
       toast({
         position: "top",
-        title: `Error`,
+        title: "Error",
         description: "Internal server error :( Try again later",
         status: "error",
         isClosable: true,
@@ -62,7 +62,7 @@ const Register = ({ setUser }) => {
           toast.closeAll()
           toast({
             position: "top",
-            title: `Error`,
+            title: "Error",
             description: "User already exists",
             status: "error",
             isClosable: true,
@@ -75,7 +75,7 @@ const Register = ({ setUser }) => {
         toast.closeAll()
         toast({
           position: "top",
-          title: `Error`,
+          title: "Error",
           description: "Unknown error while signing up",
           status: "error",
           isClosable: true,

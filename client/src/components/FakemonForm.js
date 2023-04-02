@@ -78,17 +78,17 @@ const FakemonForm = ({
       //if advanced settings is on, send intelligence and aggression with request
       showAdvanced
         ? (response = await fakemonService.generateFakemon({
-            type,
-            gen,
-            style,
-            intelligence,
-            aggression,
-          }))
+          type,
+          gen,
+          style,
+          intelligence,
+          aggression,
+        }))
         : (response = await fakemonService.generateFakemon({
-            type,
-            gen,
-            style,
-          }))
+          type,
+          gen,
+          style,
+        }))
 
       setFakemon(response)
       console.log(response)

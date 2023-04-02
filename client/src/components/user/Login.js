@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom"
 import userService from "../../services/users"
 import UserForm from "./UserForm"
 
-const Login = ({ setUser, user }) => {
+const Login = ({ setUser }) => {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
 
@@ -24,7 +24,7 @@ const Login = ({ setUser, user }) => {
           toast.closeAll()
           toast({
             position: "top",
-            title: `Error`,
+            title: "Error",
             description: "Invalid username or password",
             status: "error",
             isClosable: true,
@@ -46,7 +46,7 @@ const Login = ({ setUser, user }) => {
         toast.closeAll()
         toast({
           position: "top",
-          title: `Error`,
+          title: "Error",
           description: "Internal server error :( Try again later",
           status: "error",
           isClosable: true,
