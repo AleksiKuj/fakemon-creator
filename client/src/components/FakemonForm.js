@@ -60,6 +60,7 @@ const FakemonForm = ({
 
   useEffect(() => {
     setFakemon()
+    document.title = "Create Fakémon"
   }, [])
 
   //validate form

@@ -119,6 +119,7 @@ router.post("/", async (req, res) => {
   const style = req.body.style || "3D"
   const gen = req.body.gen || "5"
 
+  //random value between 1-100 for stats
   const randomStat = () => Math.floor(Math.random() * 100 + 1)
   const intelligence = req.body.intelligence || randomStat()
   const aggression = req.body.aggression || randomStat()
@@ -135,8 +136,24 @@ router.post("/", async (req, res) => {
   } else{
     rarity = "Legendary"
   }
+ 
+  // used for intelligence and aggression levels in ai prompts
+  const tier = (stat, string)=>{
+    if (stat <= 25){
+      return `very low ${string}`
+    }
+    else if (stat <= 50){
+      return `lower than average ${string}`
+    }
+    else if (stat <= 75){
+      return `high ${string}`
+    }
+    else  {
+      return `extremely high ${string}`
+    }
+  }
 
-  //random value between 1-100 for stats
+  
 
   try {
     const nameResponse = await openai.createChatCompletion({
@@ -144,13 +161,13 @@ router.post("/", async (req, res) => {
       messages: [
         {
           role: "system",
-          content: `Generate a new one word name for a ${rarity} fakemon that is of type ${type} 
-            who has an intelligence level of ${intelligence} and aggression level of ${aggression} (scale 1-100). 
+          content: `Generate a new one word name for a ${rarity} ${type} type fake pokemon 
+            who has ${tier(intelligence,"intelligence")} and ${tier(aggression,"aggression")}. 
            Do not have any other text or symbols such as "." in the answer.`,
         },
       ],
       max_tokens: 300, //sets max length of prompt + answer based on tokens
-      temperature: 1.5, //0-2, higher values make answers more random
+      temperature: 1.7, //0-2, higher values make answers more random
     })
     const name = nameResponse.data.choices[0].message.content
 
@@ -159,9 +176,9 @@ router.post("/", async (req, res) => {
       messages: [
         {
           role: "system",
-          content: `Create a short one sentence ability and a name for it for ${type} type fakemon ${name} 
-            who has an intelligence level of ${intelligence} and aggression level of ${aggression} (scale 1-100).
-          If you use the word "Fakemon" in the bio replace it with "Fakémon".
+          content: `Create a very short one sentence ability and a name for it for a ${rarity} ${type} type pokemon ${name} 
+            who has ${tier(intelligence,"intelligence")} and ${tier(aggression,"aggression")}.
+          If you use the word "Pokemon" in the bio replace it with "Fakémon".
           Answer in the following format. Abilityname - abilitydescription.`,
         },
       ],
@@ -174,9 +191,9 @@ router.post("/", async (req, res) => {
       messages: [
         {
           role: "system",
-          content: `Generate a short one sentence bio for a ${rarity} ${type} type fake fakemon ${name} 
-            who has an intelligence level of ${intelligence} and aggression level of ${aggression} (scale 1-100). Do not reference the levels directly.
-          If you use the word "Fakemon" in the bio replace it with "Fakémon".`,
+          content: `Generate a short one sentence bio for a ${rarity} ${type} type fake pokemon ${name} 
+            who has ${tier(intelligence,"intelligence")} and ${tier(aggression,"aggression")}.
+          If you use the word "Pokemon" in the bio replace it with "Fakémon".`,
         },
       ],
       max_tokens: 1000, //sets max length of prompt + answer based on tokens
@@ -185,7 +202,7 @@ router.post("/", async (req, res) => {
     const bio = bioResponse.data.choices[0].message.content
 
     const imageResponse = await openai.createImage({
-      prompt: `${style} portrait of ${rarity} pokemon named ${name} who has an intelligence level of ${intelligence} and aggression level of ${aggression} (scale 1-100)
+      prompt: `${style} portrait of ${rarity} pokemon named ${name} who has ${tier(intelligence,"intelligence")} and ${tier(aggression,"aggression")}
       , in style of gen ${gen} pokemon`,
       n: 1,
       size: "512x512",
@@ -202,6 +219,7 @@ router.post("/", async (req, res) => {
       intelligence,
       aggression,
     }
+
     res.status(200).json({ name, ability, bio, imageUrl, type, stats, rarity })
   } catch (error) {
     console.log(error)
