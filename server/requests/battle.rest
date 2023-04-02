@@ -1,0 +1,7 @@
+POST http://localhost:3001/api/battle
+Content-Type:application/json
+
+{
+    "attackerId":"64293b09c04f4a7eb90a897e",
+    "defenderId":"6425ae2d077208eba6301fea"
+}

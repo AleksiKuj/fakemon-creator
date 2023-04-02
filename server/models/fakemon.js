@@ -65,6 +65,12 @@ const FakemonSchema = new mongoose.Schema(
         ref: "User",
       },
     ],
+    battles: {
+      totalBattles: { type: Number, default: 0 },
+      battlesWon: { type: Number, default: 0 },
+      battlesLost: { type: Number, default: 0 },
+      battledFakemon: [{ type: mongoose.Schema.Types.ObjectId, ref: "Fakemon" }]
+    },
   },
   { timestamps: true }
 )
