@@ -45,7 +45,7 @@ const FakemonView = ({ user }) => {
         toast.closeAll()
         toast({
           position: "top",
-          title: `Error`,
+          title: "Error",
           description: "Can only like once",
           status: "error",
           isClosable: true,

@@ -64,7 +64,7 @@ const FakemonList = () => {
     getFakemon()
 
     page === 1 ? document.title = "Fakémon - View all creations"  :
-    document.title = `Fakémon - Page ${page}`
+      document.title = `Fakémon - Page ${page}`
   }, [page, sortBy])
 
   useEffect(() => {

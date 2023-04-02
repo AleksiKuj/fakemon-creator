@@ -32,7 +32,7 @@ const Nav = ({ user, setUser }) => {
     onClose()
     toast({
       position: "top",
-      title: `Logged out`,
+      title: "Logged out",
       status: "success",
       isClosable: true,
       duration: 3000,
@@ -97,7 +97,7 @@ const Nav = ({ user, setUser }) => {
                   </Link>
                   <Link
                     as={RouterLink}
-                    to={`/tradeoffers`}
+                    to={"/tradeoffers"}
                     _hover={{
                       background: hoverBg,
                     }}
