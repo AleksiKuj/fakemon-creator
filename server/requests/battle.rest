@@ -1,7 +1,8 @@
 POST http://localhost:3001/api/battle
 Content-Type:application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIxIiwiaWQiOiI2NDFjOTMyYjBiZGQyZWVlNzkwNWM1NGYiLCJpYXQiOjE2ODA1MzU3MTQsImV4cCI6MTY4MzEyNzcxNH0.BunhwxhNuoEOpXaPhzeVspVrOlmD-dvtnKWspYUSul4
 
 {
-    "attackerId":"64293b09c04f4a7eb90a897e",
-    "defenderId":"6425ae2d077208eba6301fea"
+    "attackerId":"64292ee3d2113a7ed6b9f17a",
+    "defenderId":"64292da411bba58ce83880da"
 }

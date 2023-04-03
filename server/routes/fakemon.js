@@ -135,10 +135,10 @@ router.post("/", async (req, res) => {
  
   //minimum value for stats, eg. Legendary stats always >= 75
   const rarityMultiplier = {
-    Common: 0,
-    Uncommon: 25,
+    Common: 20,
+    Uncommon: 35,
     Rare: 50,
-    Legendary: 75,
+    Legendary: 80,
   }
 
   const randomStat = (multiplier) => Math.floor(Math.random() * (100 - multiplier) + multiplier + 1)
@@ -159,8 +159,8 @@ router.post("/", async (req, res) => {
       return `extremely high ${string}`
     }
   }
-  const intelligence = req.body.intelligence || randomStat(rarityBasedMultiplier)
-  const aggression = req.body.aggression || randomStat(rarityBasedMultiplier)
+  const intelligence = req.body.intelligence || randomStat(0)
+  const aggression = req.body.aggression || randomStat(0)
 
   const stats = {
     hp: randomStat(rarityBasedMultiplier),

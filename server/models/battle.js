@@ -31,7 +31,8 @@ const BattleSchema = new mongoose.Schema(
         damage:Number,
         attackerHp:Number,
         defenderHp:Number,
-        attackEffectiviness:String
+        attackEffectiviness:String,
+        attackType:String
       },
     ],
   },
