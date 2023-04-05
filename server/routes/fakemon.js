@@ -19,6 +19,8 @@ cloudinary.config({
 
 const cloudinaryOptions = {
   folder: "/fakemon",
+  quality:"90",
+  fetch_format:"webp"
 }
 
 //get all fakemon
