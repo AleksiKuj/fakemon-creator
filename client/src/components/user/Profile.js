@@ -173,7 +173,7 @@ const MyFakemon = () => {
               />
             </Center>
           ) : (
-            <SimpleGrid columns={[1, 1, 2, 3, 3, 4]} spacing={5}>
+            <SimpleGrid columns={[1, 1, 2, 3, 3, 4]} spacing={[5,10]}>
               {fakemons.map((fakemon) => (
                 <Link
                   as={RouterLink}

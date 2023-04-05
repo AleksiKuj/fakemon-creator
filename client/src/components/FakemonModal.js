@@ -1,6 +1,6 @@
-import fakemonService from "../../services/fakemon"
-import tradeService from "../../services/trade"
-import FakemonCard from "../card/FakemonCard"
+import fakemonService from "../services/fakemon"
+import battleService from "../services/battle"
+import FakemonCard from "./card/FakemonCard"
 import {
   Box,
   Button,
@@ -20,10 +20,11 @@ import {
   ModalBody,
   ModalCloseButton,
 } from "@chakra-ui/react"
-import { FaExchangeAlt } from "react-icons/fa"
+
 import Select from "react-select"
-import { sortOptions } from "../../utils/selectOptions"
+import { sortOptions } from "../utils/selectOptions"
 import { useState, useEffect } from "react"
+import { useNavigate } from "react-router-dom"
 
 const Buttons = ({ changePage, page, totalPages }) => {
   const buttonColorScheme = useColorModeValue("blue", "purple")
@@ -50,7 +51,7 @@ const Buttons = ({ changePage, page, totalPages }) => {
   )
 }
 
-const TradeScreen = ({ fakemon, user }) => {
+const FakemonModal = ({ fakemon, user,buttonText,onSubmit,modalHeader, buttonIcon }) => {
   const [fakemons, setFakemons] = useState([])
   const [page, setPage] = useState(1)
   const [totalPages, setTotalPages] = useState(1)
@@ -62,6 +63,10 @@ const TradeScreen = ({ fakemon, user }) => {
   const buttonColorScheme = useColorModeValue("blue", "purple")
   const { isOpen, onOpen, onClose } = useDisclosure()
   const toast = useToast()
+
+  const navigate = useNavigate()
+
+  const borderColorScheme = useColorModeValue("black", "white")
 
   useEffect(() => {
     setLoading(true)
@@ -93,58 +98,36 @@ const TradeScreen = ({ fakemon, user }) => {
     if (direction === "next" && page < totalPages) setPage(page + 1)
   }
 
-  const handleTrade = async () => {
-    const receiverId = fakemon.user[0]
-    const receiverFakemonId = fakemon.id
-    const senderFakemonId = selectedFakemon.id
+  const handleBattle = async () => {
+    const defenderId = fakemon.id
+    const attackerId = selectedFakemon.id
     const details = {
-      receiverId,
-      senderFakemonId,
-      receiverFakemonId,
+      attackerId,
+      defenderId
     }
 
     try {
-      const response = await tradeService.trade(details)
+      const response = await battleService.battle(details)
       toast.closeAll()
-
-      if (response.message === "Trade completed successfully") {
-        toast({
-          position: "top",
-          description: response.message,
-          status: "success",
-          isClosable: true,
-          duration: 3000,
-        })
-      } else {
-        toast({
-          position: "top",
-          description: "Trade offer sent!",
-          status: "success",
-          isClosable: true,
-          duration: 3000,
-        })
-        onClose()
-        setSelectedFakemon()
-      }
-      onClose()
+      navigate(`/battle/${response._id}`)
+      console.log(response)
     } catch (error) {
-      console.log(error)
       toast.closeAll()
-      if (
-        error.response.data.message ===
-        "You can only have one active trade offer per Fakemon."
-      ) {
-        toast({
-          position: "top",
-          description: error.response.data.message,
-          status: "error",
-          isClosable: true,
-          duration: 3000,
-        })
+      if(error.response && error.response.data && error.response.data.message && error.response.data.message){
+        console.log(error.response.data.message)
+        {
+          toast({
+            position: "top",
+            description: error.response.data.message,
+            status: "error",
+            isClosable: true,
+            duration: 3000,
+          })
+        }
       } else {
         toast({
           position: "top",
-          description: "Error sending trade offer :(",
+          description: "Unkown error while initiating battle :(",
           status: "error",
           isClosable: true,
           duration: 3000,
@@ -156,18 +139,18 @@ const TradeScreen = ({ fakemon, user }) => {
   return (
     <>
       <Button
-        leftIcon={<FaExchangeAlt />}
+        leftIcon={buttonIcon}
         colorScheme={buttonColorScheme}
         variant="solid"
         onClick={onOpen}
       >
-        Trade
+        {buttonText}
       </Button>
 
       <Modal isOpen={isOpen} onClose={onClose} size={["sm", "md", "xl", "2xl"]}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader textAlign="center">Trade offer</ModalHeader>
+          <ModalHeader textAlign="center">{modalHeader}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <Text textAlign="center">
@@ -198,17 +181,25 @@ const TradeScreen = ({ fakemon, user }) => {
                 />
               </Center>
             ) : (
-              <SimpleGrid columns={[2, 2, 3, 3, 4, 4]} spacing={5}>
-                {fakemons.map((fakemon) => (
-                  <Box
-                    cursor="pointer"
-                    key={fakemon.id}
-                    onClick={() => setSelectedFakemon(fakemon)}
-                  >
-                    <FakemonCard fakemon={fakemon} thumbnail />
-                  </Box>
-                ))}
-              </SimpleGrid>
+              fakemons.length === 0 ? <Text textAlign="center">No Fakémon found</Text> :
+                <SimpleGrid columns={[2, 2, 3, 3, 4, 4]} spacing={5}>
+                  {fakemons.map((fakemon) => (
+                    <Box
+                      cursor="pointer"
+                      key={fakemon.id}
+                      onClick={() => setSelectedFakemon(fakemon)}
+                      border={selectedFakemon && selectedFakemon.id === fakemon.id ? "2px solid" : "none"}
+                      borderColor={borderColorScheme}
+                      borderRadius="md"
+                      m={1}
+                      _hover={{
+                        color:"red"
+                      }}
+                    >
+                      <FakemonCard fakemon={fakemon} thumbnail />
+                    </Box>
+                  ))}
+                </SimpleGrid>
             )}
           </ModalBody>
 
@@ -216,12 +207,19 @@ const TradeScreen = ({ fakemon, user }) => {
             <Button colorScheme="blue" mr={3} onClick={onClose}>
               Cancel
             </Button>
-            <Button
+            {/* <Button
               colorScheme="purple"
-              onClick={handleTrade}
+              onClick={handleBattle}
               isDisabled={selectedFakemon ? false : true}
             >
-              Send trade offer
+              Battle!
+            </Button> */}
+            <Button
+              colorScheme="purple"
+              onClick={()=>onSubmit(selectedFakemon)}
+              isDisabled={selectedFakemon ? false : true}
+            >
+              {buttonText}
             </Button>
           </ModalFooter>
         </ModalContent>
@@ -229,4 +227,4 @@ const TradeScreen = ({ fakemon, user }) => {
     </>
   )
 }
-export default TradeScreen
+export default FakemonModal

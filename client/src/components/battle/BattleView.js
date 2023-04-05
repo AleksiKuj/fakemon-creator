@@ -36,7 +36,6 @@ const BattleView =()=>{
         setAttackerId(response.battle.attacker)
         setDefenderId(response.battle.defender)
         setHistory(response.battle.history)
-        console.log(response.battle)
       } catch (error) {
         console.error(error)
       } finally {

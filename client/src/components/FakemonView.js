@@ -1,7 +1,9 @@
 import FakemonCard from "./card/FakemonCard"
 import { useState, useEffect } from "react"
-import { useParams } from "react-router-dom"
+import { useParams,useNavigate } from "react-router-dom"
 import fakemonService from "../services/fakemon"
+import battleService from "../services/battle"
+import tradeService from "../services/trade"
 import CardBack from "./card/CardBack"
 import {
   Box,
@@ -17,10 +19,10 @@ import {
   Spinner,
 } from "@chakra-ui/react"
 import { CopyIcon } from "@chakra-ui/icons"
-import { FaRegThumbsUp } from "react-icons/fa"
+import { FaRegThumbsUp,FaExchangeAlt } from "react-icons/fa"
+import {GiCrossedSwords} from "react-icons/gi"
 import ReactCardFlip from "react-card-flip"
-import TradeScreen from "./trade/TradeScreen"
-import BattleModal from "./battle/BattleModal"
+import FakemonModal from "./FakemonModal"
 
 const FakemonView = ({ user }) => {
   const [fakemon, setFakemon] = useState()
@@ -30,6 +32,7 @@ const FakemonView = ({ user }) => {
   const toast = useToast()
   const [loading, setLoading] = useState(true)
 
+  const navigate = useNavigate()
   const buttonColorScheme = useColorModeValue("blue", "purple")
 
   const likeFakemon = async () => {
@@ -89,6 +92,107 @@ const FakemonView = ({ user }) => {
       duration: 5000,
       isClosable: true,
     })
+  }
+
+  const handleBattle = async (selectedFakemon) => {
+    const defenderId = fakemon.id
+    const attackerId = selectedFakemon.id
+    const details = {
+      attackerId,
+      defenderId
+    }
+
+    try {
+      const response = await battleService.battle(details)
+      toast.closeAll()
+      navigate(`/battle/${response._id}`)
+      console.log(response)
+    } catch (error) {
+      toast.closeAll()
+      if(error.response && error.response.data && error.response.data.message && error.response.data.message){
+        console.log(error.response.data.message)
+        {
+          toast({
+            position: "top",
+            description: error.response.data.message,
+            status: "error",
+            isClosable: true,
+            duration: 3000,
+          })
+        }
+      } else {
+        console.log(error)
+        toast({
+          position: "top",
+          description: "Unkown error while initiating battle :(",
+          status: "error",
+          isClosable: true,
+          duration: 3000,
+        })
+      }
+    }
+  }
+
+  const handleTrade = async (selectedFakemon) => {
+    const receiverId = fakemon.user[0]
+    const receiverFakemonId = fakemon.id
+    const senderFakemonId = selectedFakemon.id
+    const details = {
+      receiverId,
+      senderFakemonId,
+      receiverFakemonId,
+    }
+
+    try {
+      const response = await tradeService.trade(details)
+      toast.closeAll()
+
+      if (response.message === "Trade completed successfully") {
+        toast({
+          position: "top",
+          description: response.message,
+          status: "success",
+          isClosable: true,
+          duration: 3000,
+        })
+        setTimeout(()=>{
+          window.location.reload(false)
+        },500)
+        
+      } else {
+        toast({
+          position: "top",
+          description: "Trade offer sent!",
+          status: "success",
+          isClosable: true,
+          duration: 3000,
+        })
+        navigate("/tradeoffers")
+      }
+    } catch (error) {
+      console.log(error)
+      toast.closeAll()
+      if (
+        error.response.data.message ===
+        "You can only have one active trade offer per Fakemon."
+      ) {
+        toast({
+          position: "top",
+          description: error.response.data.message,
+          status: "error",
+          isClosable: true,
+          duration: 3000,
+        })
+      } else {
+        toast({
+          position: "top",
+          description: "Error sending trade offer :(",
+          status: "error",
+          isClosable: true,
+          duration: 3000,
+        })
+      }
+    }
   }
 
   if (loading) {
@@ -151,10 +255,15 @@ const FakemonView = ({ user }) => {
                 <>
                   {/* OPEN TRADE SCREEN */}
                   {user.id !== fakemon.user[0] && fakemon.user[0] && (
-                    <TradeScreen fakemon={fakemon} user={user} />
+                    <FakemonModal fakemon={fakemon} user={user} buttonIcon={<FaExchangeAlt />}
+                      buttonText="Trade" modalHeader="Trade offer" 
+                      onSubmit={handleTrade} />
                   )}
                 
-                  <BattleModal fakemon={fakemon} user={user} />
+                  {/* BATTLE SCREEN */}
+                  <FakemonModal fakemon={fakemon} user={user} buttonIcon={<GiCrossedSwords />}
+                    buttonText="Battle" modalHeader="Pick challenger"
+                    onSubmit={handleBattle} />
                   
                   <Button
                     leftIcon={<FaRegThumbsUp />}

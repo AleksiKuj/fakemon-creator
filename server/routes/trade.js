@@ -14,7 +14,7 @@ router.get("/:userId/tradeoffers", userExtractor, async (req, res) => {
   }
 
   try {
-    const tradeOffers = await TradeRequest.find({ sender: userId }).exec()
+    const tradeOffers = await TradeRequest.find({ sender: userId })
 
     res.status(200).json(tradeOffers)
   } catch (err) {
@@ -42,8 +42,8 @@ router.post("/", userExtractor, async (req, res) => {
   let sender
   let receiver
   try {
-    sender = await User.findById(senderId).exec()
-    receiver = await User.findById(receiverId).exec()
+    sender = await User.findById(senderId)
+    receiver = await User.findById(receiverId)
   } catch (error) {
     return res.status(404).json({ message: "User not found" })
   }
@@ -109,10 +109,10 @@ const executeTrade = async (
   senderFakemonId,
   receiverFakemonId
 ) => {
-  const sender = await User.findById(senderId).exec()
-  const receiver = await User.findById(receiverId).exec()
-  const senderFakemon = await Fakemon.findById(senderFakemonId).exec()
-  const receiverFakemon = await Fakemon.findById(receiverFakemonId).exec()
+  const sender = await User.findById(senderId)
+  const receiver = await User.findById(receiverId)
+  const senderFakemon = await Fakemon.findById(senderFakemonId)
+  const receiverFakemon = await Fakemon.findById(receiverFakemonId)
 
   // Perform the trade
   sender.createdFakemon.pull(senderFakemonId)
