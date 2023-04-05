@@ -137,9 +137,9 @@ router.post("/", async (req, res) => {
  
   //minimum value for stats, eg. Legendary stats always >= 75
   const rarityMultiplier = {
-    Common: 20,
-    Uncommon: 35,
-    Rare: 50,
+    Common: 25,
+    Uncommon: 50,
+    Rare: 65,
     Legendary: 80,
   }
 

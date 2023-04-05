@@ -42,24 +42,6 @@ app.use("/api/users", usersRouter)
 app.use("/api/trade", tradeRouter)
 app.use("/api/battle", battleRouter)
 
-async function updateFakemon() {
-  try {
-    const result = await Fakemon.updateMany({}, {
-      battles: {
-        totalBattles: 0,
-        battlesWon: 0,
-        battlesLost: 0,
-        battledFakemon: []
-      }}
-    )
-    console.log(result)
-  } catch (error) {
-    console.log(error)
-  }
-}
-
-updateFakemon()
-
 app.get("/*", function (req, res) {
   res.sendFile(path.join(__dirname, "build/index.html"), function (err) {
     if (err) {

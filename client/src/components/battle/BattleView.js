@@ -3,26 +3,15 @@ import FakemonCard from "../card/FakemonCard"
 import { useState, useEffect } from "react"
 import fakemonService from "../../services/fakemon"
 import battleService from "../../services/battle"
-import CardBack from "../card/CardBack"
 import {
   Box,
-  Center,
   Button,
-  useColorModeValue,
-  useToast,
-  Progress,
   Stack,
   Text,
   SimpleGrid,
-  Tooltip,
-  Spinner,
   Heading,
   Flex
 } from "@chakra-ui/react"
-import { CopyIcon } from "@chakra-ui/icons"
-import { FaRegThumbsUp } from "react-icons/fa"
-import ReactCardFlip from "react-card-flip"
-import TradeScreen from "../trade/TradeScreen"
   
 const BattleView =()=>{
   const [attacker, setAttacker] = useState()
@@ -37,7 +26,6 @@ const BattleView =()=>{
   const [currentTurn,setCurrentTurn] = useState(0)
 
   const { id } = useParams()
-  const toast = useToast()
 
   useEffect(() => {
     const getBattle = async () => {
