@@ -38,6 +38,11 @@ function App() {
     "linear(to-t,#141E30#243B55)"
   )
 
+  //set darkmode by default
+  if (!localStorage.getItem("chakra-ui-color-mode")) {
+    localStorage.setItem("chakra-ui-color-mode", "dark")
+  }
+
   return (
     <Box bgGradient={bgGradient}>
       <Router>
