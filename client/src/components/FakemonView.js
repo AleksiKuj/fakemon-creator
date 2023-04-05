@@ -20,6 +20,7 @@ import { CopyIcon } from "@chakra-ui/icons"
 import { FaRegThumbsUp } from "react-icons/fa"
 import ReactCardFlip from "react-card-flip"
 import TradeScreen from "./trade/TradeScreen"
+import BattleModal from "./battle/BattleModal"
 
 const FakemonView = ({ user }) => {
   const [fakemon, setFakemon] = useState()
@@ -122,7 +123,9 @@ const FakemonView = ({ user }) => {
               <CardBack fakemon={fakemon} />
             </Box>
           </ReactCardFlip>
-          <Center py={5}>
+          <Center py={3}>
+            
+            
             <Stack direction="row" alignItems="center">
               <Button
                 leftIcon={<CopyIcon />}
@@ -150,18 +153,20 @@ const FakemonView = ({ user }) => {
                   {user.id !== fakemon.user[0] && fakemon.user[0] && (
                     <TradeScreen fakemon={fakemon} user={user} />
                   )}
+                
+                  <BattleModal fakemon={fakemon} user={user} />
+                  
                   <Button
                     leftIcon={<FaRegThumbsUp />}
                     colorScheme={buttonColorScheme}
                     variant="solid"
                     onClick={() => likeFakemon()}
                   >
-                    Like
+                    Like {likes}
                   </Button>
                 </>
               )}
-
-              <Text>{likes}</Text>
+              
             </Stack>
           </Center>
         </Box>
@@ -181,6 +186,8 @@ const FakemonView = ({ user }) => {
               width="40px"
             />
           </Stack>
+          <Text textAlign="center" textTransform="uppercase">battle record: ({fakemon.battles.battlesWon}W - {fakemon.battles.battlesLost}L)</Text>
+
           <Text>hp {fakemon.stats.hp}</Text>
           <Progress
             colorScheme="red"

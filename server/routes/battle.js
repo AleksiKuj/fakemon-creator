@@ -11,26 +11,29 @@ const calculateDamage = (attacker, defender,attackType)=> {
   const defense = defender.stats.defense
   const specialAttack = attacker.stats.specialAttack
   const specialDefense = defender.stats.specialDefense
+  const maxDmg = 75
 
   const effectiveness = typeEffectiveness[attacker.type.toLowerCase()][defender.type.toLowerCase()] || 1
   
   const rand = ()=> Math.random() * (100 - 50) + 50
 
   let damage
-  attackType ==="special" ? damage = Math.round(((specialAttack / (specialDefense*0.3))/40 * rand() +2) * effectiveness )
+  attackType ==="special" ? damage = Math.round(((specialAttack / (specialDefense*0.3))/30 * rand() +2) * effectiveness )
     : damage = Math.round(((attack / (defense*0.5))/50 * rand() +2) * effectiveness )
 
+  if(damage > 75) damage = 75
+
   const attackEffectiviness = () =>{
-    if (effectiveness === 0.5) return "Not very effective"
-    if (effectiveness === 1.5) return "Super effective"
-    else return "Normal effectiviness"
+    if (effectiveness === 0.5) return "not very effective"
+    if (effectiveness === 1.5) return "super effective"
+    else return "normal"
   }
   return {damage,attackEffectiviness}
 }
 
 const getRandomAttackType = () => {
   const rand = Math.random()
-  return rand < 0.5 ? "special" : "basic"
+  return rand > 0.8 ? "special" : "basic"
 }
 
 
@@ -52,8 +55,8 @@ const simulateBattle = (fakemon1, fakemon2)=>{
       action: "attack",
       fakemonId: fakemon1._id,
       damage: damage1,
-      defenderHp:fakemon1Hp,
-      attackerHp:fakemon2Hp,
+      defenderHp:fakemon2Hp,
+      attackerHp:fakemon1Hp,
       attackEffectiviness:calculateDamage(fakemon1,fakemon2).attackEffectiviness(),
       attackType:attackType1
     })
@@ -72,8 +75,8 @@ const simulateBattle = (fakemon1, fakemon2)=>{
       action: "attack",
       fakemonId: fakemon2._id,
       damage: damage2,
-      defenderHp:fakemon1Hp,
-      attackerHp:fakemon2Hp,
+      defenderHp:fakemon2Hp,
+      attackerHp:fakemon1Hp,
       attackEffectiviness:calculateDamage(fakemon2,fakemon1).attackEffectiviness(),
       attackType:attackType2
     })
@@ -151,5 +154,18 @@ router.post("/",userExtractor, async (req, res) => {
     res.status(500).json({ message: "Error creating battle", error })
   }
 })
+
+//get battle by id
+router.get("/:id", async (req, res) => {
+  const { id } = req.params
+  try {
+    const battle = await Battle.findById(id)
+    res.status(200).json({ battle })
+  } catch (error) {
+    console.log(error)
+    res.status(400).json({ error })
+  }
+})
+
 
 module.exports = router

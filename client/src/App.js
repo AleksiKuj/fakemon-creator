@@ -11,9 +11,11 @@ import Profile from "./components/user/Profile"
 import { useState, useEffect } from "react"
 import fakemonService from "./services/fakemon"
 import tradeService from "./services/trade"
+import battleService from "./services/battle"
 import { Container, Flex, Box, useColorModeValue } from "@chakra-ui/react"
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
 import TradeOffers from "./components/trade/TradeOffers"
+import BattleView from "./components/battle/BattleView"
 
 function App() {
   const [loading, setLoading] = useState(false)
@@ -27,6 +29,7 @@ function App() {
       setUser(user)
       fakemonService.setToken(user.token)
       tradeService.setToken(user.token)
+      battleService.setToken(user.token)
     }
   }, [setUser])
 
@@ -70,6 +73,10 @@ function App() {
               <Route
                 path="/tradeoffers"
                 element={<TradeOffers user={user} />}
+              />
+              <Route
+                path="/battle/:id"
+                element={<BattleView />}
               />
               <Route path="*" element={<NotFound />} />
             </Routes>

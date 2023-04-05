@@ -1,0 +1,1 @@
+GET http://localhost:3001/api/battle/642c30be20b0014feda3aea1
