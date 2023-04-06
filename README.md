@@ -1,6 +1,6 @@
 # Fakémon
 
-Fakemon is a web application built with React and Node.js/Express, which allows users to build, share and trade their own Pokémon like creatures using AI. Uses MongoDB for database.
+Fakemon is a web application built with React and Node.js/Express, which allows users to build, share, battle and trade their own Pokémon like creatures using AI. Uses MongoDB for database.
 
 [fakemon.io](https://fakemon.io)
 
@@ -10,6 +10,7 @@ Fakemon is a web application built with React and Node.js/Express, which allows 
 - Save your creations to share with friends
 - Browse creations by newest or popularity
 - Trade with other users
+- Battle against other Fakémon
 
 ## Creating a Fakemon
 
@@ -18,3 +19,6 @@ Fakemon is a web application built with React and Node.js/Express, which allows 
 ## Trading
 
 ![Trading Fakemon](https://github.com/AleksiKuj/fakemon-creator/blob/master/readme-assets/trade.gif)
+
+## Battle
+![Battling Fakemon](https://github.com/AleksiKuj/fakemon-creator/blob/master/readme-assets/battle.gif)

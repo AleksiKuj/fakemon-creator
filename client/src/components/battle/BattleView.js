@@ -74,6 +74,8 @@ const BattleView =()=>{
     }
   }
 
+  const skip =()=> setTurn(maxTurns)
+
   const effectiviness = (attackEffectiviness)=>{
     if(attackEffectiviness === "super effective") return "It was super effective!"
     if(attackEffectiviness === "not very effective") return "It was not very effective!"
@@ -103,17 +105,19 @@ const BattleView =()=>{
         <Heading as="h2" fontSize="4xl">
           {attacker.name} vs {defender.name}
         </Heading>
+        <Flex direction="row" gap={5} justifyContent="center" py={2}>
+          <Button onClick={()=>changeTurn("previous")}>Previous</Button>
+          <Button onClick={()=>changeTurn("next")}>Next</Button>
+          <Button onClick={()=>skip()}>Skip</Button>
+        </Flex>
         <Text>Turn {turn}</Text>
         <Text> <b>{history[currentTurn].fakemonName}</b> used {history[currentTurn].attackType === "basic" ? "basic attack"
           : <b>{ability(history[currentTurn].fakemonName)}</b> } for {history[currentTurn].damage} damage!</Text>
         <Text>{effectiviness(history[currentTurn].attackEffectiviness)}</Text>
         <Text>{attacker.name} {history[currentTurn].attackerHp > 0 ? history[currentTurn].attackerHp : 0}HP  
          - {history[currentTurn].defenderHp > 0 ? history[currentTurn].defenderHp : 0 }HP {defender.name}  </Text>
-        {turn === maxTurns &&<Text>{winner()} is victorious!</Text>}
-        <Flex direction="row" gap={5} justifyContent="center" py={2}>
-          <Button onClick={()=>changeTurn("previous")}>Previous</Button>
-          <Button onClick={()=>changeTurn("next")}>Next</Button>
-        </Flex>
+        {turn === maxTurns &&<Text> <b>{winner()}</b> is victorious!</Text>}
+        
       </Stack>
      
       <SimpleGrid columns={[1, 1, 2]} spacing={[2, 2, 0]}>
