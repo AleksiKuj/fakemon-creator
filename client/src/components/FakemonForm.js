@@ -9,20 +9,14 @@ import {
   Flex,
   Box,
   Text,
-  Spinner,
   Stack,
   useColorModeValue,
   Heading,
-  Slider,
-  SliderTrack,
-  SliderFilledTrack,
-  SliderThumb,
-  SliderMark,
-  Tooltip,
-  FormLabel,
   Checkbox,
 } from "@chakra-ui/react"
 import FakemonCard from "./card/FakemonCard"
+import Loader from "./Loader"
+import StatSlider from "./StatSlider"
 
 const FakemonForm = ({
   setFakemon,
@@ -187,79 +181,25 @@ const FakemonForm = ({
           <Flex gap={5}>
             {/* intelligence slider */}
             <Box w="50%">
-              <FormLabel textAlign="center">Intelligence</FormLabel>
-              <Slider
-                id="slider"
-                defaultValue={50}
-                min={1}
-                max={100}
-                colorScheme="blue"
-                onChange={(v) => setIntelligence(v)}
+              <StatSlider  onChange={(v) => setIntelligence(v)}
                 onMouseEnter={() => setShowIntelligenceTooltip(true)}
                 onMouseLeave={() => setShowIntelligenceTooltip(false)}
-                isDisabled={loading ? true : false}
-              >
-                <SliderMark value={25} mt="1" ml="-2.5" fontSize="sm">
-                  25
-                </SliderMark>
-                <SliderMark value={50} mt="1" ml="-2.5" fontSize="sm">
-                  50
-                </SliderMark>
-                <SliderMark value={75} mt="1" ml="-2.5" fontSize="sm">
-                  75
-                </SliderMark>
-                <SliderTrack>
-                  <SliderFilledTrack />
-                </SliderTrack>
-                <Tooltip
-                  hasArrow
-                  bg="teal.500"
-                  color="white"
-                  placement="top"
-                  isOpen={showIntelligenceTooltip}
-                  label={`${intelligence}`}
-                >
-                  <SliderThumb />
-                </Tooltip>
-              </Slider>
+                loading={loading}
+                isOpen={showIntelligenceTooltip}
+                tooltipLabel={intelligence} 
+                formLabel="Intelligence"
+                colorScheme="blue" />
             </Box>
             {/* aggression slider */}
             <Box w="50%">
-              <FormLabel textAlign="center">Aggression</FormLabel>
-              <Slider
-                id="slider"
-                defaultValue={50}
-                min={1}
-                max={100}
-                colorScheme="red"
-                onChange={(v) => setAggression(v)}
+              <StatSlider  onChange={(v) => setAggression(v)}
                 onMouseEnter={() => setShowAggressionTooltip(true)}
                 onMouseLeave={() => setShowAggressionTooltip(false)}
-                isDisabled={loading ? true : false}
-              >
-                <SliderMark value={25} mt="1" ml="-2.5" fontSize="sm">
-                  25
-                </SliderMark>
-                <SliderMark value={50} mt="1" ml="-2.5" fontSize="sm">
-                  50
-                </SliderMark>
-                <SliderMark value={75} mt="1" ml="-2.5" fontSize="sm">
-                  75
-                </SliderMark>
-                <SliderTrack>
-                  <SliderFilledTrack />
-                </SliderTrack>
-                <Tooltip
-                  hasArrow
-                  bg="teal.500"
-                  color="white"
-                  placement="top"
-                  isOpen={showAggressionTooltip}
-                  label={`${aggression}`}
-                >
-                  <SliderThumb />
-                </Tooltip>
-              </Slider>
+                loading={loading}
+                isOpen={showAggressionTooltip}
+                tooltipLabel={aggression} 
+                formLabel="Aggression"
+                colorScheme="red" />
             </Box>
           </Flex>
         )}
@@ -277,15 +217,10 @@ const FakemonForm = ({
         {loading && (
           <>
             <Stack alignItems="center">
-              <Spinner
-                thickness="10px"
-                speed="0.8s"
-                emptyColor="red.600"
-                color="blue.600"
-                size="xl"
-              />
+              <Loader/>
+              <Text> Generating unique Fakémon... </Text>
               <Text>
-                If this takes more than a minute, please refresh the page and
+               If this takes more than a minute, please refresh the page and
                 try again as the servers might be busy.
               </Text>
             </Stack>

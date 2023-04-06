@@ -1,16 +1,13 @@
 import fakemonService from "../services/fakemon"
-import battleService from "../services/battle"
 import FakemonCard from "./card/FakemonCard"
 import {
   Box,
   Button,
   Text,
   SimpleGrid,
-  Spinner,
   Center,
   useColorModeValue,
   Flex,
-  useToast,
   useDisclosure,
   Modal,
   ModalOverlay,
@@ -20,11 +17,10 @@ import {
   ModalBody,
   ModalCloseButton,
 } from "@chakra-ui/react"
-
+import Loader from "./Loader"
 import Select from "react-select"
 import { sortOptions } from "../utils/selectOptions"
 import { useState, useEffect } from "react"
-import { useNavigate } from "react-router-dom"
 
 const Buttons = ({ changePage, page, totalPages }) => {
   const buttonColorScheme = useColorModeValue("blue", "purple")
@@ -51,7 +47,7 @@ const Buttons = ({ changePage, page, totalPages }) => {
   )
 }
 
-const FakemonModal = ({ fakemon, user,buttonText,onSubmit,modalHeader, buttonIcon }) => {
+const FakemonModal = ({ user,buttonText,onSubmit,modalHeader, buttonIcon }) => {
   const [fakemons, setFakemons] = useState([])
   const [page, setPage] = useState(1)
   const [totalPages, setTotalPages] = useState(1)
@@ -62,15 +58,11 @@ const FakemonModal = ({ fakemon, user,buttonText,onSubmit,modalHeader, buttonIco
 
   const buttonColorScheme = useColorModeValue("blue", "purple")
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const toast = useToast()
-
-  const navigate = useNavigate()
 
   const borderColorScheme = useColorModeValue("black", "white")
 
   useEffect(() => {
     setLoading(true)
-
     const getFakemon = async () => {
       try {
         const response = await fakemonService.getAllFromUser(
@@ -98,44 +90,6 @@ const FakemonModal = ({ fakemon, user,buttonText,onSubmit,modalHeader, buttonIco
     if (direction === "next" && page < totalPages) setPage(page + 1)
   }
 
-  const handleBattle = async () => {
-    const defenderId = fakemon.id
-    const attackerId = selectedFakemon.id
-    const details = {
-      attackerId,
-      defenderId
-    }
-
-    try {
-      const response = await battleService.battle(details)
-      toast.closeAll()
-      navigate(`/battle/${response._id}`)
-      console.log(response)
-    } catch (error) {
-      toast.closeAll()
-      if(error.response && error.response.data && error.response.data.message && error.response.data.message){
-        console.log(error.response.data.message)
-        {
-          toast({
-            position: "top",
-            description: error.response.data.message,
-            status: "error",
-            isClosable: true,
-            duration: 3000,
-          })
-        }
-      } else {
-        toast({
-          position: "top",
-          description: "Unkown error while initiating battle :(",
-          status: "error",
-          isClosable: true,
-          duration: 3000,
-        })
-      }
-    }
-  }
-
   return (
     <>
       <Button
@@ -150,9 +104,11 @@ const FakemonModal = ({ fakemon, user,buttonText,onSubmit,modalHeader, buttonIco
       <Modal isOpen={isOpen} onClose={onClose} size={["sm", "md", "xl", "2xl"]}>
         <ModalOverlay />
         <ModalContent>
+          
           <ModalHeader textAlign="center">{modalHeader}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
+            
             <Text textAlign="center">
               {selectedFakemon && `${selectedFakemon.name} selected`}
             </Text>
@@ -171,15 +127,7 @@ const FakemonModal = ({ fakemon, user,buttonText,onSubmit,modalHeader, buttonIco
               />
             </Center>
             {loading ? (
-              <Center>
-                <Spinner
-                  thickness="10px"
-                  speed="0.8s"
-                  emptyColor="red.600"
-                  color="blue.600"
-                  size="xl"
-                />
-              </Center>
+              <Loader/>
             ) : (
               fakemons.length === 0 ? <Text textAlign="center">No Fakémon found</Text> :
                 <SimpleGrid columns={[2, 2, 3, 3, 4, 4]} spacing={5}>
@@ -207,13 +155,6 @@ const FakemonModal = ({ fakemon, user,buttonText,onSubmit,modalHeader, buttonIco
             <Button colorScheme="blue" mr={3} onClick={onClose}>
               Cancel
             </Button>
-            {/* <Button
-              colorScheme="purple"
-              onClick={handleBattle}
-              isDisabled={selectedFakemon ? false : true}
-            >
-              Battle!
-            </Button> */}
             <Button
               colorScheme="purple"
               onClick={()=>onSubmit(selectedFakemon)}

@@ -1,6 +1,7 @@
 import "./fakemonCard.css"
 import { gradientColors } from "../../utils/selectOptions"
-import { Spinner, Center, Box, Stack, Text, Flex } from "@chakra-ui/react"
+import { Center, Box, Stack, Text, Flex } from "@chakra-ui/react"
+import Loader from "../Loader"
 
 const FakemonCard = ({ fakemon, loading, thumbnail }) => {
   const ability = {
@@ -75,13 +76,7 @@ const FakemonCard = ({ fakemon, loading, thumbnail }) => {
   return (
     <Center w={["330px"]} margin="auto" color="black">
       {loading ? (
-        <Spinner
-          thickness="10px"
-          speed="0.8s"
-          emptyColor="red.600"
-          color="blue.600"
-          size="xl"
-        />
+        <Loader/>
       ) : (
         <Box
           className="fakemon-card"

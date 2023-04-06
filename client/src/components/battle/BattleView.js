@@ -12,6 +12,7 @@ import {
   Heading,
   Flex
 } from "@chakra-ui/react"
+import Loader from "../Loader"
   
 const BattleView =()=>{
   const [attacker, setAttacker] = useState()
@@ -91,7 +92,10 @@ const BattleView =()=>{
     return battle.winner === defenderId ? defender.name : attacker.name
   }
 
-  if(!battle || !attacker || !defender) return null
+  if(loading) return <Loader/>
+  if(!battle || !attacker || !defender){
+    return(<Heading as="h2" textAlign="center">Battle not found</Heading>)
+  }
 
   return (
     <Box>

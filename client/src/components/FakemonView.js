@@ -16,13 +16,13 @@ import {
   Text,
   SimpleGrid,
   Tooltip,
-  Spinner,
 } from "@chakra-ui/react"
 import { CopyIcon } from "@chakra-ui/icons"
 import { FaRegThumbsUp,FaExchangeAlt } from "react-icons/fa"
 import {GiCrossedSwords} from "react-icons/gi"
 import ReactCardFlip from "react-card-flip"
 import FakemonModal from "./FakemonModal"
+import Loader from "./Loader"
 
 const FakemonView = ({ user }) => {
   const [fakemon, setFakemon] = useState()
@@ -197,15 +197,7 @@ const FakemonView = ({ user }) => {
 
   if (loading) {
     return (
-      <Center>
-        <Spinner
-          thickness="10px"
-          speed="0.8s"
-          emptyColor="red.600"
-          color="blue.600"
-          size="xl"
-        />
-      </Center>
+      <Loader/>
     )
   }
 

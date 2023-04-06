@@ -6,7 +6,6 @@ import {
   Button,
   Text,
   SimpleGrid,
-  Spinner,
   Center,
   useColorModeValue,
   Link,
@@ -15,6 +14,7 @@ import {
 import { Link as RouterLink } from "react-router-dom"
 import Select from "react-select"
 import { sortOptions } from "../utils/selectOptions"
+import Loader from "./Loader"
 
 const Buttons = ({ changePage, page, totalPages }) => {
   const buttonColorScheme = useColorModeValue("blue", "purple")
@@ -89,15 +89,7 @@ const FakemonList = () => {
         />
       </Center>
       {loading ? (
-        <Center>
-          <Spinner
-            thickness="10px"
-            speed="0.8s"
-            emptyColor="red.600"
-            color="blue.600"
-            size="xl"
-          />
-        </Center>
+        <Loader/>
       ) : (
         <SimpleGrid columns={[1, 1, 2, 3, 3, 4]} spacing={[5,10]}>
           {fakemons.map((fakemon) => (
