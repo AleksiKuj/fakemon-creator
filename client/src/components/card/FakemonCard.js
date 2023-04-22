@@ -1,6 +1,6 @@
 import "./fakemonCard.css"
 import { gradientColors } from "../../utils/selectOptions"
-import { Center, Box, Stack, Text, Flex } from "@chakra-ui/react"
+import { Center, Box, Stack, Text, Flex, Image } from "@chakra-ui/react"
 import Loader from "../Loader"
 
 const FakemonCard = ({ fakemon, loading, thumbnail }) => {
@@ -54,12 +54,10 @@ const FakemonCard = ({ fakemon, loading, thumbnail }) => {
               textTransform="uppercase"
             >
               <Text className="thumbnail-fakemon-name">{fakemon.name} </Text>
-
               <img
-                className="type-icon"
+                className="thumbnail-type-icon"
                 src={require(`../../images/${fakemon.type}.png`)}
                 alt={fakemon.type}
-                width="15px"
               />
             </Stack>
           </div>
@@ -95,14 +93,13 @@ const FakemonCard = ({ fakemon, loading, thumbnail }) => {
             >
               <Text className="fakemon-name">{fakemon.name} </Text>
 
-              <img
+              <Image
                 className="type-icon"
                 src={require(`../../images/${fakemon.type}.png`)}
                 alt={fakemon.type}
-                width="30px"
               />
 
-              <Text fontSize="sm">{fakemon.rarity && fakemon.rarity}</Text>
+              <Text fontSize="xs" style={{marginInlineStart:1}}>{fakemon.rarity && fakemon.rarity}</Text>
               <Box direction="row" w="full">
                 <Text float="right" fontSize="sm" letterSpacing="0px">
                   {fakemon.stats.hp}HP

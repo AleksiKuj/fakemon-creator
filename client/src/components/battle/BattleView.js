@@ -94,6 +94,10 @@ const BattleView =()=>{
     return battle.winner === defenderId ? defender.name : attacker.name
   }
 
+  useEffect(()=>{
+    document.title = "Fakémon - Battle"
+  },[])
+
   if(loading) return <Loader/>
   if(!battle || !attacker || !defender){
     return(<Heading as="h2" textAlign="center">Battle not found</Heading>)

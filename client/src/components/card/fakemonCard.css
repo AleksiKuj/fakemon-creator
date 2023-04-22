@@ -43,6 +43,13 @@
 }
 .type-icon {
   float: right;
+  margin-inline-start: 0px !important;
+  width:30px
+}
+.thumbnail-type-icon {
+  float: right;
+  margin-inline-start: 0px !important;
+  width:20px
 }
 
 .fakemon-image img {
@@ -61,7 +68,7 @@
   float: right;
 }
 .fakemon-name {
-  font-size: 18px;
+  font-size: 16px;
   letter-spacing: 0px;
   margin: 0;
   float: left;
@@ -74,9 +81,9 @@
 }
 
 .fakemon-type {
-  font-size: 18px;
+  font-size: 17px;
   font-weight: bold;
-  margin: 0 0 10px;
+  margin: 0 0 0px;
 }
 
 .ability-name {
