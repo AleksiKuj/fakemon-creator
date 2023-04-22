@@ -62,6 +62,7 @@ const Login = ({ setUser }) => {
     if (loggedUserJSON) {
       navigate("/")
     }
+    document.title = "Fakémon - Sign In"
   }, [])
 
   return (

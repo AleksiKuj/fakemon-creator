@@ -21,6 +21,9 @@ const TradeOffers = ({ user }) => {
     }
   }, [user, refreshTradeOffers])
 
+  useEffect(()=>{
+    document.title = "Fakémon - Trade Offers"
+  },[])
   if (!user) return <Text textAlign="center">Log in to use trade offers</Text>
 
   return (

@@ -93,6 +93,8 @@ const Register = ({ setUser }) => {
     if (loggedUserJSON) {
       navigate("/")
     }
+    document.title = "Fakémon - Sign Up"
+
   }, [])
   return (
     <Center py={5}>
