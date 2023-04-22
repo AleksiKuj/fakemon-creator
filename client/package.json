@@ -26,7 +26,6 @@
   "scripts": {
     "start": "cross-env REACT_APP_ENV=development react-scripts start",
     "build": "cross-env REACT_APP_ENV=production react-scripts build",
-    "postinstall": "npm run build && cp -r build ../",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint 'src/**/*.{js,jsx}'"
