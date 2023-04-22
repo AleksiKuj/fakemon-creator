@@ -136,9 +136,10 @@ const FakemonModal = ({ user,buttonText,onSubmit,modalHeader, buttonIcon }) => {
                       cursor="pointer"
                       key={fakemon.id}
                       onClick={() => setSelectedFakemon(fakemon)}
-                      border={selectedFakemon && selectedFakemon.id === fakemon.id ? "2px solid" : "none"}
+                      border={selectedFakemon && selectedFakemon.id === fakemon.id ? "3px solid" : "none"}
                       borderColor={borderColorScheme}
                       borderRadius="md"
+                      w="155px"
                       m={1}
                       _hover={{
                         color:"red"
