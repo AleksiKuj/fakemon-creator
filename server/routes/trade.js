@@ -6,6 +6,7 @@ const { userExtractor } = require("../utils/middleware")
 
 //get all users trade offers
 router.get("/:userId/tradeoffers", userExtractor, async (req, res) => {
+  if(!req.user) return res.status(400).json({message:"unauthorized"})
   const user = req.user
   const userId = user.id
 

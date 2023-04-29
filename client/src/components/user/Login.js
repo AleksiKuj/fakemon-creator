@@ -34,6 +34,7 @@ const Login = ({ setUser }) => {
         }
         window.localStorage.setItem("fakemonUser", JSON.stringify(response))
         setUser(response)
+        navigate(0)
         navigate("/")
         toast({
           position: "top",
