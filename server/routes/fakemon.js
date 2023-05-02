@@ -2,6 +2,7 @@ const express = require("express")
 const router = express.Router()
 const Fakemon = require("../models/fakemon")
 const User = require("../models/user")
+const Counter = require("../models/counter")
 const { userExtractor } = require("../utils/middleware")
 const cloudinary = require("cloudinary").v2
 const { Configuration, OpenAIApi } = require("openai")
@@ -22,6 +23,18 @@ const cloudinaryOptions = {
   quality:"90",
   fetch_format:"webp"
 }
+
+//Increment counter by 1
+const incrementFakemonCounter = async () => {
+  try {
+    const counter = await Counter.findByIdAndUpdate("fakemonCounter", { $inc: { count: 1 } }, { new: true })
+    return counter.count
+  } catch (error) {
+    console.error("Error incrementing image counter:", error)
+    return null
+  }
+}
+
 
 //get all fakemon
 router.get("/", async (req, res) => {
@@ -230,6 +243,7 @@ router.post("/", async (req, res) => {
     const imageUrl = imageResponse.data.data[0].url
 
     res.status(200).json({ name, ability, bio, imageUrl, type, stats, rarity })
+    incrementFakemonCounter()
   } catch (error) {
     console.log(error)
     res.status(400).json({ error })

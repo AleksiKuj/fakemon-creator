@@ -10,10 +10,12 @@ const fakemonRouter = require("./routes/fakemon")
 const usersRouter = require("./routes/users")
 const tradeRouter = require("./routes/trade")
 const battleRouter = require("./routes/battle")
+const counterRouter = require("./routes/counter")
 const http = require("http")
 const User = require("./models/user")
 const Fakemon = require("./models/fakemon")
 const Battle = require("./models/battle")
+const Counter = require("./models/counter")
 
 let mongoUrl
 if (process.env.NODE_ENV === "prod") {
@@ -31,6 +33,18 @@ const connect = async () => {
   }
 }
 connect()
+// const initializeCounter = async () =>{
+//   try {
+//     const counter = await Counter.findById("fakemonCounter")
+//     if (!counter) {
+//       const newCounter = new Counter({ _id: "fakemonCounter" })
+//       await newCounter.save()
+//     }
+//   } catch (error) {
+//     console.error("Error initializing image counter:", error)
+//   }
+// }
+// initializeCounter()
 
 app.use(express.json())
 app.use(cors())
@@ -41,6 +55,7 @@ app.use("/api/fakemon", fakemonRouter)
 app.use("/api/users", usersRouter)
 app.use("/api/trade", tradeRouter)
 app.use("/api/battle", battleRouter)
+app.use("/api/counter", counterRouter)
 
 app.get("/*", function (req, res) {
   res.sendFile(path.join(__dirname, "build/index.html"), function (err) {
