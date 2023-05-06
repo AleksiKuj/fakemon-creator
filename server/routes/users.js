@@ -54,9 +54,9 @@ router.post("/login", async (req, res) => {
     id: user._id,
   }
 
-  //   //token expires in 30 days
+  //token expires in 30 days
   const token = jwt.sign(userForToken, process.env.SECRET, {
-    expiresIn: "30 days",
+    expiresIn: "7 days",
   })
   res.status(200).send({ token, username: user.username, id: user.id })
 })

@@ -13,25 +13,90 @@ import fakemonService from "./services/fakemon"
 import tradeService from "./services/trade"
 import battleService from "./services/battle"
 import { Container, Flex, Box, useColorModeValue } from "@chakra-ui/react"
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom"
 import TradeOffers from "./components/trade/TradeOffers"
 import BattleView from "./components/battle/BattleView"
+import { isTokenExpired } from "./utils/isTokenExpired"
 
-function App() {
+const AppContent = ({user, setUser}) => {
   const [loading, setLoading] = useState(false)
   const [fakemon, setFakemon] = useState()
-  const [user, setUser] = useState("")
+  const location = useLocation()
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem("fakemonUser")
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
       setUser(user)
+      const token = JSON.parse(loggedUserJSON).token
+      if(isTokenExpired(token)) {
+        localStorage.removeItem("fakemonUser")
+        setUser("")
+        return window.location.reload(false)
+      } 
       fakemonService.setToken(user.token)
       tradeService.setToken(user.token)
       battleService.setToken(user.token)
     }
   }, [setUser])
+
+  
+
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem("fakemonUser")
+    if (loggedUserJSON) {
+      const token = JSON.parse(loggedUserJSON).token
+      if(isTokenExpired(token)) {
+        localStorage.removeItem("fakemonUser")
+        setUser("")
+        return window.location.reload(false)
+      } 
+    }
+  }, [location.pathname])
+
+  return (
+    <>
+      <Routes>
+        <Route path="/" element={<FakemonList />} />
+        <Route
+          path="/fakemon/:id"
+          element={<FakemonView user={user} />}
+        />
+        <Route
+          path="/createfakemon"
+          element={
+            <FakemonForm
+              setFakemon={setFakemon}
+              fakemon={fakemon}
+              loading={loading}
+              setLoading={setLoading}
+              user={user}
+              setUser={setUser}
+            />
+          }
+        />
+        <Route path="/users/:id/profile" element={<Profile />} />
+        <Route path="/login" element={<Login setUser={setUser} />} />
+        <Route
+          path="/register"
+          element={<Register setUser={setUser} />}
+        />
+        <Route
+          path="/tradeoffers"
+          element={<TradeOffers user={user} />}
+        />
+        <Route
+          path="/battle/:id"
+          element={<BattleView />}
+        />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </>
+  )
+}
+
+function App() {
+  const [user, setUser] = useState("")
 
   const bgGradient = useColorModeValue(
     "linear(to-t,#e7d7e7 ,#e4f4d4)",
@@ -50,41 +115,7 @@ function App() {
           <Container maxW="container.xl">
             <Header />
             <Nav user={user} setUser={setUser} />
-            <Routes>
-              <Route path="/" element={<FakemonList />} />
-              <Route
-                path="/fakemon/:id"
-                element={<FakemonView user={user} />}
-              />
-              <Route
-                path="/createfakemon"
-                element={
-                  <FakemonForm
-                    setFakemon={setFakemon}
-                    fakemon={fakemon}
-                    loading={loading}
-                    setLoading={setLoading}
-                    user={user}
-                    setUser={setUser}
-                  />
-                }
-              />
-              <Route path="/users/:id/profile" element={<Profile />} />
-              <Route path="/login" element={<Login setUser={setUser} />} />
-              <Route
-                path="/register"
-                element={<Register setUser={setUser} />}
-              />
-              <Route
-                path="/tradeoffers"
-                element={<TradeOffers user={user} />}
-              />
-              <Route
-                path="/battle/:id"
-                element={<BattleView />}
-              />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
+            <AppContent user={user} setUser={setUser} />
           </Container>
           <Flex grow="1"></Flex>
           <Footer />

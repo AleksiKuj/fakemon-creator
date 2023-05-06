@@ -33,18 +33,6 @@ const connect = async () => {
   }
 }
 connect()
-// const initializeCounter = async () =>{
-//   try {
-//     const counter = await Counter.findById("fakemonCounter")
-//     if (!counter) {
-//       const newCounter = new Counter({ _id: "fakemonCounter" })
-//       await newCounter.save()
-//     }
-//   } catch (error) {
-//     console.error("Error initializing image counter:", error)
-//   }
-// }
-// initializeCounter()
 
 app.use(express.json())
 app.use(cors())
